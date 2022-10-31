@@ -1,0 +1,117 @@
+# Default values for helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+namespace: nmsw-dev
+replicaCount: 3
+
+image:
+  repository: quay.io/ukhomeofficedigital/nmsw-ui
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "dev"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+security:
+  application:
+    podSecurityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 1000
+  proxy:
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      capabilities:
+        drop:
+          - SETUID
+          - SETGID
+
+service:
+  type: ClusterIP
+  port: &port 443
+  targetPort: 10443
+
+ingress:
+  host: nmsw-ui.dev.nmsw.homeoffice.gov.uk
+  path: /
+  pathType: ImplementationSpecific
+  annotations:
+    cert-manager.io/enabled: "true"
+    ingress.kubernetes.io/backend-protocol: "HTTPS"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/ingress.class: nginx-external
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 500Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+probes:
+  readinessProbe:
+    httpGet:
+      path: /healthcheck
+      port: 8080
+      scheme: HTTP
+    initialDelaySeconds: 10
+    periodSeconds: 3
+    failureThreshold: 5
+  livenessProbe:
+    httpGet:
+      path: /healthcheck
+      port: 8080
+      scheme: HTTP
+    initialDelaySeconds: 30
+    periodSeconds: 3
+    failureThreshold: 3
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+env:
+  application:
+    - name: NMSW_DATA_API_BASE_URL
+      value: "https://nmsw-api.dev.nmsw.homeoffice.gov.uk"
+    - name: NMSW_MAINTENANCE
+      value: "false"
+    - name: GOV_NOTIFY_SUPPORT_EMAIL
+      value: "nmsw@homeoffice.gov.uk"
+  proxy:
+    - name: PROXY_SERVICE_HOST
+      value: 'http://127.0.0.1'
+    - name: PROXY_SERVICE_PORT
+      value: "8080"
+    - name: SERVER_CERT
+      value: "/certs/tls.crt"
+    - name: SERVER_KEY
+      value: "/certs/tls.key"
+    - name: LOG_FORMAT_NAME
+      value: "json"
+    - name: NAXSI_USE_DEFAULT_RULES
+      value: "FALSE"
+    - name: ENABLE_UUID_PARAM
+      value: "FALSE"
+    - name: STATSD_METRICS
+      value: 'FALSE'

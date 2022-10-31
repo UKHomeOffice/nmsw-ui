@@ -13,7 +13,6 @@ module.exports = {
   resolve: {
     alias: {
       '/assets': path.resolve(__dirname, 'node_modules/govuk-frontend/govuk/assets'),
-      config: path.resolve(__dirname, 'src/Config/config.js'),
     },
   },
   module: {
@@ -65,7 +64,8 @@ module.exports = {
   ],
   devServer: {
     historyApiFallback: true,
-    hot: true,
+    hot: false,
+    liveReload: true,
     static: {
       directory: path.join(__dirname, 'dist'),
     },

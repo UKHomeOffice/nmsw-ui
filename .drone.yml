@@ -1,0 +1,191 @@
+---
+kind: pipeline
+type: kubernetes
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: sync_dev_secrets
+  pull: always
+  image: quay.io/ukhomeofficedigital/cop-secrets
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: DEV_DRONE_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: DEV_DRONE_AWS_SECRET_ACCESS_KEY
+    DEPLOY_ENV: dev
+    DRONE_SERVER: https://drone-gh.acp.homeoffice.gov.uk
+    DRONE_TOKEN:
+      from_secret: DRONE_V1_PUBLIC_TOKEN
+    DRONE_VERSION: ${DRONE_SYSTEM_VERSION}
+  when:
+    branch:
+    - version-*
+    event:
+    - push
+
+- name: unit_test
+  pull: always
+  image: quay.io/ukhomeofficedigital/cop-node:16
+  commands:
+  - npm ci
+  - npm run test
+  when:
+    event:
+    - push
+
+- name: sonarqube_scan
+  pull: if-not-exists
+  image: quay.io/ukhomeofficedigital/sonar-scanner:latest
+  when:
+    event:
+    - push
+    - tag
+
+- name: build_container_image
+  pull: always
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
+  commands:
+    - /usr/local/bin/wait
+    - docker build -t nmsw-ui:$${DRONE_COMMIT_SHA} .
+  when:
+    branch:
+    - main
+    - version-*
+    event:
+    - push
+
+- name: vulnerability-scan
+  pull: always
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
+  environment:
+    IMAGE_NAME: nmsw-ui:${DRONE_COMMIT_SHA}
+    LOCAL_IMAGE: true
+    TOLERATE: low
+    WHITELIST_FILE: whitelist
+  when:
+    branch:
+    - main
+    - version-*
+    event:
+    - push
+
+- name: dev_image_to_quay
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/nmsw-ui
+    tags:
+    - ${DRONE_COMMIT_SHA}
+    - dev
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: NMSW_QUAY_PASSWORD
+    DOCKER_USERNAME: ukhomeofficedigital+nmsw_ui
+  when:
+    branch:
+    - version-*
+    event:
+    - push
+
+- name: image_to_quay
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/nmsw-ui
+    tags:
+    - ${DRONE_COMMIT_SHA}
+    - ${DRONE_TAG}
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: NMSW_QUAY_PASSWORD
+    DOCKER_USERNAME: ukhomeofficedigital+nmsw_ui
+  when:
+    event:
+    - tag
+
+- name: deploy_to_dev
+  pull: if-not-exists
+  image: quay.io/ukhomeofficedigital/helm:latest
+  commands:
+  - /run-helm.sh list -n nmsw-dev
+  - helm upgrade --install nmsw-ui ./helm -f ./helm/dev.yaml -n nmsw-dev --dry-run
+  - helm upgrade --install nmsw-ui ./helm -f ./helm/dev.yaml -n nmsw-dev
+  environment:
+    KUBE_CERTIFICATE_AUTHORITY_DATA:
+      from_secret: DEV_NMSW_KUBE_CA_DATA
+    KUBE_CLUSTER_NAME:
+      from_secret: DEV_NMSW_KUBE_CLUSTER_NAME
+    KUBE_SERVER:
+      from_secret: DEV_NMSW_KUBE_SERVER
+    KUBE_TOKEN:
+      from_secret: DEV_NMSW_KUBE_TOKEN
+  when:
+    branch:
+    - version-*
+    event:
+    - push
+
+- name: notify
+  pull: if-not-exists
+  image: plugins/slack
+  failure: ignore
+  settings:
+    channel: nmsw-deployments
+    template: "{{#build.deployTo}}\n  *{{repo.name}} - Build {{build.number}} - {{uppercasefirst build.deployTo}} - {{uppercase build.status}}*\n  {{build.link}}\n{{else}}\n  *{{repo.name}} - Build {{build.number}} - Development - {{uppercase build.status}}*\n  {{build.link}}\n{{/build.deployTo}}\n"
+    username: Drone Build Watcher
+  environment:
+    SLACK_WEBHOOK:
+      from_secret: SLACK_WEBHOOK
+  when:
+    branch:
+    - main
+    - version-*
+    event:
+    - promote
+    - push
+    status:
+    - success
+    - failure
+
+services:
+- name: docker
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
+
+- name: anchore-submission-server
+  pull: always
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
+  commands:
+  - /run.sh server
+# The cypress environment variable script needs to be adapted for the changes in "dev.yaml".
+# JAS - 21/10/2022
+#---
+#kind: pipeline
+#type: kubernetes
+#name: cypress-test
+#
+#platform:
+#  os: linux
+#  arch: amd64
+#
+#steps:
+#- name: dev_cypress_test
+#  pull: if-not-exists
+#  image: quay.io/ukhomeofficedigital/cop-cypress:10.3.0-node16
+#  commands:
+#  - ./cypress-extract-env.sh ./helm/dev.yaml
+#  - cat ./cypress-env.sh
+#  - export $(cat ./cypress-env.sh | xargs)
+#  - apt-get update && apt-get upgrade -y
+#  - ./drone-cypress-test-script.sh dev
+#  when:
+#    branch:
+#    - version-*
+#    - cypress-drone
+#    event:
+#    - push
+#  failure: ignore
+...

@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SERVICE_NAME } from '../constants/AppConstants';
 import {
+  DASHBOARD_PAGE_NAME,
   DASHBOARD_URL,
   LANDING_URL,
+  SECOND_PAGE_NAME,
   SECOND_PAGE_URL,
 } from '../constants/AppUrlConstants';
 import useUserIsPermitted from '../hooks/useUserIsPermitted';
@@ -14,13 +16,13 @@ const Nav = () => {
     {
       id: 'Dashboard',
       urlStem: DASHBOARD_URL,
-      text: 'Dashboard',
+      text: DASHBOARD_PAGE_NAME,
       active: true, // Dashboard is the logged in landing therefore defaults to active true
     },
     {
       id: 'SecondPage',
       urlStem: SECOND_PAGE_URL,
-      text: 'Second page',
+      text: SECOND_PAGE_NAME,
       active: false,
     }
   ];

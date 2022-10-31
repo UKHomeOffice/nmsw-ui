@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "helm.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.security.application.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.probes -}}
+          {{- toYaml .Values.probes | nindent 10 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            {{- toYaml .Values.env.application | nindent 10 }}
+        - name: proxy
+          image: "quay.io/ukhomeofficedigital/nginx-proxy:latest"
+          imagePullPolicy: Always
+          securityContext:
+            {{- toYaml .Values.security.proxy.securityContext | nindent 12 }}
+          env:
+            {{- toYaml .Values.env.proxy | nindent 10 }}
+          ports:
+            - name: https
+              containerPort: 10443
+          volumeMounts:
+            - name: certs
+              mountPath: /certs
+              readOnly: true
+      volumes:
+        - name: certs
+          secret:
+            secretName: nmsw-ui-pod-cmio

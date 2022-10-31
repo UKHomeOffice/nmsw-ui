@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Chart.Name }}-pod-cmio
+spec:
+  secretName: {{ .Chart.Name }}-pod-cmio
+  issuerRef:
+    name: platform-ca
+    kind: ClusterIssuer
+  commonName: {{ .Chart.Name }}.{{ .Values.namespace }}.svc.cluster.local
+  dnsNames:
+  - localhost
+  - 127.0.0.1
+  

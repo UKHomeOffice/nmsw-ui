@@ -1,0 +1,24 @@
+{{- $fullName := include "helm.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+  name: {{ $fullName }}
+  labels:
+    cert-manager.io/solver: http01
+spec:
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+            path: {{ .Values.ingress.path }}
+            pathType: {{ .Values.ingress.pathType }}
+  tls:
+    - hosts:
+      - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.host }}-cmio

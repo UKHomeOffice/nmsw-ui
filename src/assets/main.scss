@@ -1,5 +1,8 @@
 @import '~govuk-frontend/govuk/all';
 
+// ===================
+// Layout Overrides
+// ===================
 /* Set to default to GDS font when no class is applied to ensure we always use this font */
 body {
   font-family: "GDS Transport",arial,sans-serif;
@@ -35,4 +38,55 @@ body {
     display: block !important;
   }
 }
+
+// ========================
+// Button & Link Overrides
+// ========================
+.govuk-button--text {
+  color: $govuk-link-colour;
+  font-family: "GDS Transport",arial,sans-serif;
+  font-size: inherit;
+  text-decoration: underline;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+}
+.govuk-button--text:hover {
+  color: $govuk-link-hover-colour;
+  text-decoration: underline;
+  text-decoration-thickness: max(3px, 0.1875rem, 0.12em);
+  background-color: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+.govuk-button--text:active {
+  color: $govuk-link-active-colour;
+  text-decoration: underline;
+  background-color: transparent;
+  box-shadow: none;
+}
+.govuk-button--text:focus {
+  outline: 3px solid transparent;
+  color: $govuk-focus-text-colour;
+  text-decoration: underline;
+  background-color: $govuk-focus-colour;
+  box-shadow: 0 -2px $govuk-focus-colour, 0 4px $govuk-focus-text-colour;
+  text-decoration: none;
+}
+
+.govuk-error-summary__list .govuk-button--text {
+  color: $govuk-error-colour;
+  font-weight: 700;
+  text-align: left;
+}
+.govuk-error-summary__list .govuk-button--text:hover {
+  font-weight: 700;
+  color: #942514;
+}
+.govuk-error-summary__list .govuk-button--text:focus {
+  font-weight: 700;
+  color: $govuk-focus-text-colour;
+}
+
 

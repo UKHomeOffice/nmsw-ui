@@ -1,6 +1,6 @@
 {
   "name": "nmsw-ui",
-  "version": "1.0.0",
+  "version": "0.4.0",
   "description": "National Maritime Single Window",
   "main": "index.js",
   "scripts": {
