@@ -132,9 +132,9 @@ switch (fieldDetails.type) {
 
 ## <a id="CreateForm"></a>Create a form
 
-TODO: refactor Add formActions in DisplayForm to map the form actions rather than specify directly. And then update these docs
+_TODO: refactor Add formActions in DisplayForm to map the form actions rather than specify directly. And then update these docs_
 
-1. <a id="AddFormActions"></a>Add formActions
+### 1. <a id="AddFormActions"></a>Add formActions
 
 Determine which form actions you need
  - submit
@@ -167,7 +167,7 @@ Create an object of formActions for your form
   };
 ```
 
-2. <a id="AddFormFields"></a>Add formFields
+### 2. <a id="AddFormFields"></a>Add formFields
 
 Create an object of formFields for your form
 
@@ -229,7 +229,7 @@ const formFields = [
 
   ```
 
-3. <a id="AddValidationRules"></a>Add validation rules (if required)
+### 3. <a id="AddValidationRules"></a>Add validation rules (if required)
 
 Into your formField object, add any validation rules for each field.
 
@@ -318,9 +318,9 @@ const formFields = [
   ];
 ```
 
-4. <a id="AddHandleSubmit"></a>Add handleSubmit 
+### 4. <a id="AddHandleSubmit"></a>Add handleSubmit 
 
-TODO: Add an example API call once those are built
+_TODO: Add an example API call once those are built_
 
 Add your handleSubmit function. You need to include:
 - calling the Validator and setting any errors it returns
@@ -357,11 +357,11 @@ If you use a confirmation page
   };
 ```
 
-5. <a id="AddHandleCancel"></a>Add handleCancel
+### 5. <a id="AddHandleCancel"></a>Add handleCancel
 
-TODO: Add a handleCancel example
+_TODO: Add a handleCancel example_
 
-6. <a id="AddDisplayForm"></a>Add <DisplayForm> to your return
+### 6. <a id="AddDisplayForm"></a>Add <DisplayForm> to your return
 
 Add the DisplayForm component to your return
 
@@ -381,7 +381,7 @@ Add the DisplayForm component to your return
   );
 ```
 
-Your final page component will then look something like this:
+### Your final page component will then look something like this:
 
 ```javascript
 import { useState } from 'react';
