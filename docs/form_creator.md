@@ -529,3 +529,11 @@ const SecondPage = () => {
 
 export default SecondPage;
 ```
+
+----
+
+## Structure Diagram
+
+_Last updated November 2022_
+
+<a href="https://github.com/UKHomeOffice/nmsw-ui/blob/main/docs/formComposerDiagram-preview.png"><img src="https://github.com/UKHomeOffice/nmsw-ui/blob/main/docs/formComposerDiagram-preview.png" alt="Form constructor diagram" title="Form constructor diagram" height="150" /></a>
