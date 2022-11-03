@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useUserIsPermitted from './hooks/useUserIsPermitted';
 import ProtectedRoutes from './utils/ProtectedRoutes';
@@ -35,7 +35,7 @@ const AppRouter = ({ setIsCookieBannerShown }) => {
       <Routes>
         <Route path='/' element={<Landing />} />
         <Route path={ACCESSIBILITY_URL} element={<AccessibilityStatement />} />
-        <Route path={COOKIE_URL} element={<CookiePolicy  setIsCookieBannerShown={setIsCookieBannerShown} />} />
+        <Route path={COOKIE_URL} element={<CookiePolicy setIsCookieBannerShown={setIsCookieBannerShown} />} />
         <Route path={FORM_CONFIRMATION_URL} element={<FormConfirmationPage />} />
         <Route path={LANDING_URL} element={<Landing />} />
         <Route path={PRIVACY_URL} element={<PrivacyNotice />} />
@@ -44,6 +44,7 @@ const AppRouter = ({ setIsCookieBannerShown }) => {
           <Route path={DASHBOARD_URL} element={<Dashboard />} />
           <Route path={SECOND_PAGE_URL} element={<SecondPage />} />
         </Route>
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
     </ScrollToTop>
   );
