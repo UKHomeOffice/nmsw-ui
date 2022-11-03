@@ -5,7 +5,7 @@ This is the front end, and will connect to the data-api when available
 
 ## Requirements
 
-* node v16
+* node v18
 
 ## Index
 * [Getting started](#getting-started)

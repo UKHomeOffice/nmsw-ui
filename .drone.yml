@@ -29,7 +29,7 @@ steps:
 
 - name: unit_test
   pull: always
-  image: quay.io/ukhomeofficedigital/cop-node:16
+  image: quay.io/ukhomeofficedigital/cop-node:18-alpine
   commands:
   - npm ci
   - npm run test
@@ -174,7 +174,7 @@ services:
 #steps:
 #- name: dev_cypress_test
 #  pull: if-not-exists
-#  image: quay.io/ukhomeofficedigital/cop-cypress:10.3.0-node16
+#  image: quay.io/ukhomeofficedigital/cop-cypress:10.3.0-node16 NOTE: this will need to be updated to node18 when available
 #  commands:
 #  - ./cypress-extract-env.sh ./helm/dev.yaml
 #  - cat ./cypress-env.sh
