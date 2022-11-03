@@ -54,7 +54,7 @@ const InputDate = ({ fieldDetails, handleChange }) => {
     <div className="govuk-date-input" id={`${fieldDetails.fieldName}-input`}>
       <div className="govuk-date-input__item">
         <div className="govuk-form-group">
-          <label className="govuk-label govuk-date-input__label" htmlFor="passport-issued-day">
+          <label className="govuk-label govuk-date-input__label" htmlFor={`${fieldDetails.fieldName}-input-day`}>
             Day
           </label>
           <input
@@ -70,7 +70,7 @@ const InputDate = ({ fieldDetails, handleChange }) => {
       </div>
       <div className="govuk-date-input__item">
         <div className="govuk-form-group">
-          <label className="govuk-label govuk-date-input__label" htmlFor="passport-issued-month">
+          <label className="govuk-label govuk-date-input__label" htmlFor={`${fieldDetails.fieldName}-input-month`}>
             Month
           </label>
           <input
@@ -85,7 +85,7 @@ const InputDate = ({ fieldDetails, handleChange }) => {
       </div>
       <div className="govuk-date-input__item">
         <div className="govuk-form-group">
-          <label className="govuk-label govuk-date-input__label" htmlFor="passport-issued-year">
+          <label className="govuk-label govuk-date-input__label" htmlFor={`${fieldDetails.fieldName}-input-year`}>
             Year
           </label>
           <input
@@ -105,13 +105,13 @@ const InputDate = ({ fieldDetails, handleChange }) => {
 
 ### 2. Add your input type to the switch statement on DetermineFieldType
 
-Create a constant for your field type in `src/constants/AppConstants` and import it into `src/components/formFields/DetermineFieldType.jsx`
+Create a constant for your field type in `src/constants/AppConstants` and import it, and your new input file (e.g. `InputDate`) into `src/components/formFields/DetermineFieldType.jsx`
 
 ```javascript
 export const FIELD_DATE = 'date';
 ```
 
-Add an item to the switch statement
+Add an item to the switch statement in `DetermineFieldType`
 
 ```javascript
 ...
@@ -136,6 +136,8 @@ _TODO: refactor Add formActions in DisplayForm to map the form actions rather th
 
 ### 1. <a id="AddFormActions"></a>Add formActions
 
+Go to the page or component file you want to add your form to (or create your page if it's for a new page).
+
 Determine which form actions you need
  - submit
  - cancel
@@ -158,7 +160,7 @@ Create an object of formActions for your form
       type: 'button',
     },
     cancel: {
-      className: 'govuk-button--secondary',
+      className: 'govuk-button govuk-button--secondary',
       dataModule: 'govuk-button',
       dataTestid: 'submit-button',
       label: 'Cancel',
@@ -347,7 +349,7 @@ If you use a confirmation page
             formName: 'Example form',
             nextPageLink: DASHBOARD_URL,
             nextPageName: DASHBOARD_PAGE_NAME,
-            referenceNumber: referenceNumber
+            // referenceNumber: referenceNumber // only include referenceNumber if you will receive one from your API POST/PATCH call, otherwise leave this out
           }
         }
       );
