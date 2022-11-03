@@ -114,25 +114,27 @@ const DisplayForm = ({ errors, fields, formId, formActions, handleSubmit, setErr
           );
         })
       }
-      <button
-        type={formActions.submit.type}
-        className={formActions.submit.className}
-        data-module={formActions.submit.dataModule}
-        data-testid={formActions.submit.dataTestid}
-        onClick={(e) => handleSubmit(e, { formData })}
-      >
-        {formActions.submit.label}
-      </button>
-      {
-        formActions.cancel && <button
-          type={formActions.cancel.type}
-          className={formActions.cancel.className}
-          data-module={formActions.cancel.dataModule}
-          data-testid={formActions.cancel.dataTestid}
+      <div className="govuk-button-group">
+        <button
+          type={formActions.submit.type}
+          className={formActions.submit.className}
+          data-module={formActions.submit.dataModule}
+          data-testid={formActions.submit.dataTestid}
+          onClick={(e) => handleSubmit(e, { formData })}
         >
-          {formActions.cancel.label}
+          {formActions.submit.label}
         </button>
-      }
+        {
+          formActions.cancel && <button
+            type={formActions.cancel.type}
+            className={formActions.cancel.className}
+            data-module={formActions.cancel.dataModule}
+            data-testid={formActions.cancel.dataTestid}
+          >
+            {formActions.cancel.label}
+          </button>
+        }
+      </div>
     </form>
   );
 };
