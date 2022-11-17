@@ -17,24 +17,16 @@ import { countries } from '../../pages/TempPages/TempMockList-country';
 
 const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
   console.log('error', error);
-  // needs to take in
-    // defaultValue - for if there is a value to prepop
-    // endpoint for getting data
-    // response key to show (or if statement if merged) if statement (so for port, we have if statement around unlocode perhaps, for country it's just result = name)
-    const responseKey = 'name';
-
-  // userQuery is what user is typing
-
+  const responseKey = fieldDetails.responseKey;
   const [currentValue, setCurrentValue] = useState(fieldDetails.value || '');
 
   const suggest = (userQuery, populateResults) => {
     // We should look at using lodash.debounce to prevent calls being made too fast as user types
-    
-    // this will be replaced with the api call to return the first [x] values of the dataset
+    // apiResponseData will be replaced with the api call to return the first [x] values of the dataset
     const apiResponseData = countries;
 
     // adding a filter in here to mimic the userQuery being used to get a response
-    // this will be replaced with the api call to return a filtered dataset based on the userQuery
+    // filteredResults will be replaced with the api call to return a filtered dataset based on the userQuery
     const filteredResults = apiResponseData.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(userQuery.toLowerCase())));
 
     // this is part of the Autocomplete componet and how we return results to the list
@@ -109,8 +101,10 @@ Sugggester.propTypes = {
   dataTestid: PropTypes.string,
   error: PropTypes.string,
   fieldDetails: PropTypes.shape({
+    dataAPIEndpoint: PropTypes.string.isRequired,
     fieldName: PropTypes.string.isRequired,
     hint: PropTypes.string,
+    responseKey: PropTypes.string.isRequired,
     value: PropTypes.string,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
