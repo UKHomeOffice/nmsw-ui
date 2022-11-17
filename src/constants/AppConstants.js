@@ -2,6 +2,7 @@
 export const SERVICE_NAME = 'National Maritime Single Window';
 
 // Forms: input types
+export const FIELD_AUTOCOMPLETE = 'autocomplete';
 export const FIELD_EMAIL = 'email';
 export const FIELD_PASSWORD = 'password';
 export const FIELD_TEXT = 'text';
