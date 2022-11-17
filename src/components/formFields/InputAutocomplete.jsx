@@ -29,7 +29,6 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
 
   const suggest = (userQuery, populateResults) => {
     // We should look at using lodash.debounce to prevent calls being made too fast as user types
-    // We also need to add in a restrictor so we only start searching once a user has entered the second character
     
     // this will be replaced with the api call to return the first [x] values of the dataset
     const apiResponseData = countries;
@@ -90,9 +89,10 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
     <>
       <Autocomplete
         data-testid={dataTestid}
-        id={`${fieldDetails.fieldName}-input`}
-        name={fieldDetails.fieldName}
         defaultValue={currentValue}
+        id={`${fieldDetails.fieldName}-input`}
+        minLength={2}
+        name={fieldDetails.fieldName}
         showNoOptionsFound={false}
         source={suggest}
         templates={{
