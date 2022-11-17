@@ -50,7 +50,11 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
     let response;
     if (result && result[responseKey]) {
       // this occurs when user has typed in the field
-      response = result[responseKey];
+      if (fieldDetails.additionalKey && result[fieldDetails.additionalKey]) {
+        response = `${result[responseKey]} ${result[fieldDetails.additionalKey]}`;
+      } else {
+        response = result[responseKey];
+      }
     } else if (result) {
       // this occurs when there is a defaultValue on page render
       response = currentValue;
@@ -105,7 +109,7 @@ InputAutocomplete.propTypes = {
     fieldName: PropTypes.string.isRequired,
     hint: PropTypes.string,
     responseKey: PropTypes.string.isRequired,  // a field that always exists in the dataset that we can use as a key for returning results
-    additionalKeys: PropTypes.array,  // optional other fields that we want to append to the returned result if it exists in the dataset
+    additionalKey: PropTypes.string,  // optional other field that we want to append to the returned result if it exists in the dataset (e.g. country ISO code, unlocode)
     value: PropTypes.string,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
