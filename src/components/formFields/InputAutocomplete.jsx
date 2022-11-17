@@ -16,18 +16,16 @@ import { countries } from '../../pages/TempPages/TempMockList-country';
 // some explanation of aria-activedescendant: https://www.holisticseo.digital/technical-seo/web-accessibility/aria-activedescendant/
 
 const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
+  console.log(error);
   // needs to take in
     // defaultValue - for if there is a value to prepop
     // endpoint for getting data
     // response key to show (or if statement if merged) if statement (so for port, we have if statement around unlocode perhaps, for country it's just result = name)
-  
+    const responseKey = 'name';
 
   // userQuery is what user is typing
-  console.log(error);
 
-
-  const defaultValue = fieldDetails.value ||''; // can assume we pass this in on props
-  const [currentValue, setCurrentValue] = useState(defaultValue);
+  const [currentValue, setCurrentValue] = useState(fieldDetails.value || '');
 
   const suggest = (userQuery, populateResults) => {
     // We should look at using lodash.debounce to prevent calls being made too fast as user types
@@ -45,6 +43,9 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
   };
 
   const handleOnConfirm = (e) => {
+    // we replicate the e.target.name and e.target.value that other input fields return, so we can return this value in the same format
+    const target = {target: { name: fieldDetails.fieldName, value: e.name }};
+    handleChange(target);
     setCurrentValue(e);
   };
 
@@ -55,11 +56,19 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
     // we can also use the template function to format the unlocode/name into a valid string
 
     // if result is null (i.e. user has not typed in the field, and there's no default port) do nothing
-    if (!result) {
+    console.log('result', result);
+    let response;
+    if (result) {
+      response = result[responseKey];
+    } else {
       return;
     }
-    let response;
-    response = result.name;
+    // if (!result) {
+    //   return;
+    // }
+    // let response;
+    // response = result?.name;
+    // console.log('response', response)
     // if (result.unlocode) { 
     //   response = `${result.name} (${result.unlocode})`;
     // } else if (result.name) {
@@ -85,7 +94,6 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
           suggestion: template,
         }}
         onConfirm={(e) => handleOnConfirm(e)}
-        onChange={handleChange}
       />
     </>
   );
