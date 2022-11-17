@@ -16,7 +16,7 @@ import { countries } from '../../pages/TempPages/TempMockList-country';
 // some explanation of aria-activedescendant: https://www.holisticseo.digital/technical-seo/web-accessibility/aria-activedescendant/
 
 const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
-  console.log(error);
+  console.log('error', error);
   // needs to take in
     // defaultValue - for if there is a value to prepop
     // endpoint for getting data
@@ -46,7 +46,7 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
     // we replicate the e.target.name and e.target.value that other input fields return, so we can return this value in the same format
     const target = {target: { name: fieldDetails.fieldName, value: e.name }};
     handleChange(target);
-    setCurrentValue(e);
+    setCurrentValue(e[responseKey]);
   };
 
   function template(result) {
@@ -54,15 +54,36 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
     // related to specifying the input as `readonly` instead of `readOnly` and therefore the value being invalid
     // using the templates method to populate the list removes those errors
     // we can also use the template function to format the unlocode/name into a valid string
+    // for more details see https://github.com/alphagov/accessible-autocomplete
 
     // if result is null (i.e. user has not typed in the field, and there's no default port) do nothing
-    console.log('result', result);
     let response;
-    if (result) {
+
+    // there is no result : user hasn't typed anything/field is null
+    // there is a result but result[responseKey] is undefined : we have a default value/current value
+    // there is a result with result[responseKey] : user has typed
+
+    if (result && result[responseKey]) {
+      // this occurs when user has typed in the field
       response = result[responseKey];
+    } else if (result) {
+      // this occurs when there is a defaultValue on page render
+      response = currentValue;
     } else {
+      // this covered when user hasn't typed in field yet / field is null
       return;
     }
+
+
+    // if (!result) {
+    //   console.log('result', 'no', result)
+    // } else {
+    //   console.log('result', 'yes', result[responseKey])
+    //   console.log('result', 'result', result)
+    //   // console.log({currentValue})
+    //   response = result[responseKey];
+    // }
+    
     // if (!result) {
     //   return;
     // }
