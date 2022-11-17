@@ -60,6 +60,7 @@
     "webpack-dev-server": "^4.11.0"
   },
   "dependencies": {
+    "accessible-autocomplete": "^2.0.4",
     "govuk-frontend": "^4.3.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
