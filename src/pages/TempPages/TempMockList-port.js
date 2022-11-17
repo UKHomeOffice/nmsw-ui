@@ -12,6 +12,6 @@ export const portList = [
   },
   {
     name: 'Dover Other',
-    unlocode: 'GB POR',
+    unlocode: 'GR POR',
   },
 ];

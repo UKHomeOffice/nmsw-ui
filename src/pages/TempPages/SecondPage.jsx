@@ -8,6 +8,7 @@ import {
 } from '../../constants/AppConstants';
 import { DASHBOARD_PAGE_NAME, DASHBOARD_URL, FORM_CONFIRMATION_URL } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
+import { countries } from './TempMockList-country';
 import { portList } from './TempMockList-port';
 
 const SecondPage = () => {
@@ -37,11 +38,18 @@ const SecondPage = () => {
     },
     {
       type: FIELD_AUTOCOMPLETE,
+      label: 'Select your country',
+      fieldName: 'country',
+      dataAPIEndpoint: countries,
+      responseKey: 'name'
+    },
+    {
+      type: FIELD_AUTOCOMPLETE,
       label: 'Select your port',
       fieldName: 'port',
       dataAPIEndpoint: portList,
       responseKey: 'name',
-      additionalKeys: ['unlocode']
+      additionalKey: 'unlocode'
     },
     {
       type: FIELD_RADIO,
