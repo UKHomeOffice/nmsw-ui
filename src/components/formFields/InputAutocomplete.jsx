@@ -10,21 +10,20 @@ import Autocomplete from 'accessible-autocomplete/react';
 // then aria-activedescendent's value changes and voice over reads it out correctly
 // The error occurs because when the combobox pop up (list) is closed, the value of aria-activedescendent is set to = 'false'
 // and false is an invalid value for it.
-
 // some explanation of aria-activedescendant: https://www.holisticseo.digital/technical-seo/web-accessibility/aria-activedescendant/
 
-const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
+const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) => {
   console.log('error', error);
   const responseKey = fieldDetails.responseKey;
   const [currentValue, setCurrentValue] = useState(fieldDetails.value || '');
 
   const suggest = (userQuery, populateResults) => {
-    // We should look at using lodash.debounce to prevent calls being made too fast as user types
-    // apiResponseData will be replaced with the api call to return the first [x] values of the dataset
+    // TODO: We should look at using lodash.debounce to prevent calls being made too fast as user types
+    // TODO: apiResponseData will be replaced with the api call to return the first [x] values of the dataset
     const apiResponseData = fieldDetails.dataAPIEndpoint;
 
     // adding a filter in here to mimic the userQuery being used to get a response
-    // filteredResults will be replaced with the api call to return a filtered dataset based on the userQuery
+    // TODO: filteredResults will be replaced with the api call to return a filtered dataset based on the userQuery
     const filteredResults = apiResponseData.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(userQuery.toLowerCase())));
 
     // this is part of the Autocomplete componet and how we return results to the list
@@ -54,7 +53,7 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
       // this occurs when there is a defaultValue on page render
       response = currentValue;
     } else {
-      // this covered when user hasn't typed in field yet / field is null
+      // this covers when user hasn't typed in field yet / field is null
       return;
     }
     
@@ -95,11 +94,12 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
   );
 };
 
-Sugggester.propTypes = {
+InputAutocomplete.propTypes = {
   dataTestid: PropTypes.string,
   error: PropTypes.string,
   fieldDetails: PropTypes.shape({
-    dataAPIEndpoint: PropTypes.string.isRequired,
+    // dataAPIEndpoint: PropTypes.string.isRequired, // when we implement the endpoint
+    dataAPIEndpoint: PropTypes.array.isRequired, // for while we're passing in a mocked array of data
     fieldName: PropTypes.string.isRequired,
     hint: PropTypes.string,
     responseKey: PropTypes.string.isRequired,
@@ -108,4 +108,4 @@ Sugggester.propTypes = {
   handleChange: PropTypes.func.isRequired,
 };
 
-export default Sugggester;
+export default InputAutocomplete;
