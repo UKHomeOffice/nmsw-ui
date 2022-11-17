@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import Autocomplete from 'accessible-autocomplete/react';
 // import { portList } from '../../pages/TempPages/TempMockList-port';
 import { countries } from '../../pages/TempPages/TempMockList-country';
@@ -14,7 +15,7 @@ import { countries } from '../../pages/TempPages/TempMockList-country';
 
 // some explanation of aria-activedescendant: https://www.holisticseo.digital/technical-seo/web-accessibility/aria-activedescendant/
 
-const Sugggester = () => {
+const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
   // needs to take in
     // defaultValue - for if there is a value to prepop
     // endpoint for getting data
@@ -22,10 +23,10 @@ const Sugggester = () => {
   
 
   // userQuery is what user is typing
+  console.log(error);
 
 
-
-  const defaultValue = ''; // can assume we pass this in on props
+  const defaultValue = fieldDetails.value ||''; // can assume we pass this in on props
   const [currentValue, setCurrentValue] = useState(defaultValue);
 
   const suggest = (userQuery, populateResults) => {
@@ -72,10 +73,10 @@ const Sugggester = () => {
 
   return (
     <>
-      <label htmlFor="autocomplete">Default value</label>
       <Autocomplete
-        id="autocomplete"
-        name="defaultValue"
+        data-testid={dataTestid}
+        id={`${fieldDetails.fieldName}-input`}
+        name={fieldDetails.fieldName}
         defaultValue={currentValue}
         showNoOptionsFound={false}
         source={suggest}
@@ -84,9 +85,21 @@ const Sugggester = () => {
           suggestion: template,
         }}
         onConfirm={(e) => handleOnConfirm(e)}
+        onChange={handleChange}
       />
     </>
   );
+};
+
+Sugggester.propTypes = {
+  dataTestid: PropTypes.string,
+  error: PropTypes.string,
+  fieldDetails: PropTypes.shape({
+    fieldName: PropTypes.string.isRequired,
+    hint: PropTypes.string,
+    value: PropTypes.string,
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default Sugggester;

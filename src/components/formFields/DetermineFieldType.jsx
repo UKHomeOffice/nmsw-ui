@@ -6,7 +6,7 @@ import {
   FIELD_TEXT,
   FIELD_RADIO
 } from '../../constants/AppConstants';
-import AutocompleteSuggester from './AutocompleteSuggester';
+import InputAutocomplete from './InputAutocomplete';
 import InputRadio from './InputRadio';
 import InputText from './InputText';
 
@@ -61,7 +61,7 @@ const determineFieldType = ({ error, fieldDetails, parentHandleChange }) => {
       break;
 
     case FIELD_AUTOCOMPLETE: fieldToReturn =
-      <AutocompleteSuggester
+      <InputAutocomplete
         autoComplete='email'
         error={error} // if error true, error styling applied to input
         fieldDetails={fieldDetails}
