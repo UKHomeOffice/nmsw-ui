@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
 import {
+  FIELD_AUTOCOMPLETE,
   FIELD_EMAIL,
   FIELD_PASSWORD,
   VALIDATE_EMAIL_ADDRESS,
