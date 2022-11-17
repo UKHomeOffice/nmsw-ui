@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
 import {
-  FIELD_AUTOCOMPLETE,
   FIELD_EMAIL,
   FIELD_PASSWORD,
   VALIDATE_EMAIL_ADDRESS,
@@ -10,7 +9,6 @@ import {
 } from '../../constants/AppConstants';
 import { DASHBOARD_URL } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
-import { countries } from '../TempPages/TempMockList-country';
 
 const SignIn = (userDetails) => {
   const tempHardCodedUser = Object.entries(userDetails).length > 0 ? userDetails.user : { name: 'MockedUser' };
