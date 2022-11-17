@@ -26,27 +26,35 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
 
     // adding a filter in here to mimic the userQuery being used to get a response
     // TODO: filteredResults will be replaced with the api call to return a filtered dataset based on the userQuery
-    const filteredResults = apiResponseData.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(userQuery.toLowerCase())));
+    const filteredResults = userQuery ? apiResponseData.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(userQuery.toLowerCase()))) : null;
 
     // this is part of the Autocomplete componet and how we return results to the list
     populateResults(filteredResults);
   };
 
   const handleOnConfirm = (e) => {
-    if (!e) { return; }
-    // we replicate the e.target.name and e.target.value that other input fields return, so we can return this value in the same format
-    const resposeMimickingE = {target: { name: fieldDetails.fieldName, value: e[responseKey] }};
-    handleChange(resposeMimickingE);
+    if (!e ) { return; }
+    let displayValue;
+    if (fieldDetails.additionalKey && e[fieldDetails.additionalKey]) {
+      displayValue = `${e[responseKey]} ${e[fieldDetails.additionalKey]}`;
+    } else {
+      displayValue = e[responseKey];
+    }
+
+    const formattedEvent = {
+      target: {
+        name: fieldDetails.fieldName,
+        value: displayValue,
+        additionalDetails: {
+          [fieldDetails.fieldName]: e
+        },
+      }
+    };
+    handleChange(formattedEvent);
     setCurrentValue(e[responseKey]);
   };
 
   function template(result) {
-    // using just a source list and not the templates in the autocomplete component results in console errors
-    // related to specifying the input as `readonly` instead of `readOnly` and therefore the value being invalid
-    // using the templates method to populate the list removes those errors
-    // we can also use the template function to format the unlocode/name into a valid string
-    // for more details see https://github.com/alphagov/accessible-autocomplete
-
     let response;
     if (result && result[responseKey]) {
       // this occurs when user has typed in the field
@@ -62,24 +70,15 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
       // this covers when user hasn't typed in field yet / field is null
       return;
     }
-    
-    // if (!result) {
-    //   return;
-    // }
-    // let response;
-    // response = result?.name;
-    // console.log('response', response)
-    // if (result.unlocode) { 
-    //   response = `${result.name} (${result.unlocode})`;
-    // } else if (result.name) {
-    //   response = result.name;
-    // } else { 
-    //   response = result;
-    // }
 
     return response;
   }
 
+  // using just a source list and not the templates in the autocomplete component results in console errors
+  // related to specifying the input as `readonly` instead of `readOnly` and therefore the value being invalid
+  // using the templates method to populate the list removes those errors
+  // we can also use the template function to format the unlocode/name into a valid string
+  // for more details see https://github.com/alphagov/accessible-autocomplete
   return (
     <>
       <Autocomplete
