@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Autocomplete from 'accessible-autocomplete/react';
-// import { portList } from '../../pages/TempPages/TempMockList-port';
-import { countries } from '../../pages/TempPages/TempMockList-country';
 
 // there is an open PR to fix the aria-activedescendent issue: 
 // https://github.com/alphagov/accessible-autocomplete/issues/434
@@ -23,7 +21,7 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
   const suggest = (userQuery, populateResults) => {
     // We should look at using lodash.debounce to prevent calls being made too fast as user types
     // apiResponseData will be replaced with the api call to return the first [x] values of the dataset
-    const apiResponseData = countries;
+    const apiResponseData = fieldDetails.dataAPIEndpoint;
 
     // adding a filter in here to mimic the userQuery being used to get a response
     // filteredResults will be replaced with the api call to return a filtered dataset based on the userQuery
