@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import {
+  FIELD_AUTOCOMPLETE,
   FIELD_EMAIL,
   FIELD_PASSWORD,
   FIELD_TEXT,
   FIELD_RADIO
 } from '../../constants/AppConstants';
+import AutocompleteSuggester from './AutocompleteSuggester';
 import InputRadio from './InputRadio';
 import InputText from './InputText';
 
@@ -58,6 +60,16 @@ const determineFieldType = ({ error, fieldDetails, parentHandleChange }) => {
       />;
       break;
 
+    case FIELD_AUTOCOMPLETE: fieldToReturn =
+      <AutocompleteSuggester
+        autoComplete='email'
+        error={error} // if error true, error styling applied to input
+        fieldDetails={fieldDetails}
+        handleChange={parentHandleChange}
+        type='autocomplete'
+      />;
+      break;
+
     case FIELD_PASSWORD: fieldToReturn =
       <InputText
         error={error}
@@ -65,15 +77,6 @@ const determineFieldType = ({ error, fieldDetails, parentHandleChange }) => {
         handleChange={parentHandleChange}
         type='password'
         dataTestid={`${fieldDetails.fieldName}-passwordField`}
-      />;
-      break;
-
-    case FIELD_TEXT: fieldToReturn =
-      <InputText
-        error={error}
-        fieldDetails={fieldDetails}
-        handleChange={parentHandleChange}
-        type='text'
       />;
       break;
 
@@ -85,6 +88,15 @@ const determineFieldType = ({ error, fieldDetails, parentHandleChange }) => {
         type='radio'
       />;
       break;
+
+      case FIELD_TEXT: fieldToReturn =
+        <InputText
+          error={error}
+          fieldDetails={fieldDetails}
+          handleChange={parentHandleChange}
+          type='text'
+        />;
+        break;
 
     default: fieldToReturn = null;
   }
