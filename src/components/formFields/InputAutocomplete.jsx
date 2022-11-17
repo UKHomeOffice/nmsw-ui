@@ -14,26 +14,30 @@ import Autocomplete from 'accessible-autocomplete/react';
 
 const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) => {
   console.log('error', error);
+  // TODO: defaultValue just setting the name
+  // problem happening in I think the template function
+  // I would expect it to return nothing, but it's returning undefined
+  // Preference is for the dropdown to behave as it does after you select an item e.g. doesn't show again until two more keystrokes
 
   const [currentValue, setCurrentValue] = useState(fieldDetails.value || '');
   const responseKey = fieldDetails.responseKey;
 
-
   const suggest = (userQuery, populateResults) => {
+    if (!userQuery) { return; }
     // TODO: We should look at using lodash.debounce to prevent calls being made too fast as user types
     // TODO: apiResponseData will be replaced with the api call to return the first [x] values of the dataset
     const apiResponseData = fieldDetails.dataAPIEndpoint;
 
     // adding a filter in here to mimic the userQuery being used to get a response
     // TODO: filteredResults will be replaced with the api call to return a filtered dataset based on the userQuery
-    const filteredResults = userQuery ? apiResponseData.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(userQuery.toLowerCase()))) : null;
+    const filteredResults = apiResponseData.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(userQuery.toLowerCase())));
 
     // this is part of the Autocomplete componet and how we return results to the list
     populateResults(filteredResults);
   };
 
   const handleOnConfirm = (e) => {
-    if (!e ) { return; }
+    if (!e) { return; }
     let displayValue;
     if (fieldDetails.additionalKey && e[fieldDetails.additionalKey]) {
       displayValue = `${e[responseKey]} ${e[fieldDetails.additionalKey]}`;
@@ -63,9 +67,6 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
       } else {
         response = result[responseKey];
       }
-    } else if (result) {
-      // this occurs when there is a defaultValue on page render
-      response = currentValue;
     } else {
       // this covers when user hasn't typed in field yet / field is null
       return;
