@@ -14,8 +14,10 @@ import Autocomplete from 'accessible-autocomplete/react';
 
 const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) => {
   console.log('error', error);
-  const responseKey = fieldDetails.responseKey;
+
   const [currentValue, setCurrentValue] = useState(fieldDetails.value || '');
+  const responseKey = fieldDetails.responseKey;
+
 
   const suggest = (userQuery, populateResults) => {
     // TODO: We should look at using lodash.debounce to prevent calls being made too fast as user types
@@ -102,7 +104,8 @@ InputAutocomplete.propTypes = {
     dataAPIEndpoint: PropTypes.array.isRequired, // for while we're passing in a mocked array of data
     fieldName: PropTypes.string.isRequired,
     hint: PropTypes.string,
-    responseKey: PropTypes.string.isRequired,
+    responseKey: PropTypes.string.isRequired,  // a field that always exists in the dataset that we can use as a key for returning results
+    additionalKeys: PropTypes.array,  // optional other fields that we want to append to the returned result if it exists in the dataset
     value: PropTypes.string,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,

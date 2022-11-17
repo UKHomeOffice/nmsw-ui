@@ -40,8 +40,8 @@ const SecondPage = () => {
       label: 'Select your port',
       fieldName: 'port',
       dataAPIEndpoint: portList,
-      responseKey: 'name'
-      // responseKeys: {name: 'name', unlocode: 'unlocode'},
+      responseKey: 'name', // a field that always exists in the dataset that we can use as a key for returning results
+      additionalKeys: ['unlocode'] // optional other fields that we want to append to the returned result if it exists in the dataset
     },
     {
       type: FIELD_RADIO,

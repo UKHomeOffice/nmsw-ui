@@ -7,7 +7,7 @@ import {
   FIELD_PASSWORD,
   VALIDATE_EMAIL_ADDRESS,
   VALIDATE_REQUIRED,
-  } from '../../constants/AppConstants';
+} from '../../constants/AppConstants';
 import { DASHBOARD_URL } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
 import { countries } from '../TempPages/TempMockList-country';
