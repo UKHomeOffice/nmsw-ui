@@ -43,9 +43,10 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
   };
 
   const handleOnConfirm = (e) => {
+    if (!e) { return; }
     // we replicate the e.target.name and e.target.value that other input fields return, so we can return this value in the same format
-    const target = {target: { name: fieldDetails.fieldName, value: e.name }};
-    handleChange(target);
+    const resposeMimickingE = {target: { name: fieldDetails.fieldName, value: e[responseKey] }};
+    handleChange(resposeMimickingE);
     setCurrentValue(e[responseKey]);
   };
 
@@ -56,13 +57,7 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
     // we can also use the template function to format the unlocode/name into a valid string
     // for more details see https://github.com/alphagov/accessible-autocomplete
 
-    // if result is null (i.e. user has not typed in the field, and there's no default port) do nothing
     let response;
-
-    // there is no result : user hasn't typed anything/field is null
-    // there is a result but result[responseKey] is undefined : we have a default value/current value
-    // there is a result with result[responseKey] : user has typed
-
     if (result && result[responseKey]) {
       // this occurs when user has typed in the field
       response = result[responseKey];
@@ -73,16 +68,6 @@ const Sugggester = ({ dataTestid, error, fieldDetails, handleChange }) => {
       // this covered when user hasn't typed in field yet / field is null
       return;
     }
-
-
-    // if (!result) {
-    //   console.log('result', 'no', result)
-    // } else {
-    //   console.log('result', 'yes', result[responseKey])
-    //   console.log('result', 'result', result)
-    //   // console.log({currentValue})
-    //   response = result[responseKey];
-    // }
     
     // if (!result) {
     //   return;
