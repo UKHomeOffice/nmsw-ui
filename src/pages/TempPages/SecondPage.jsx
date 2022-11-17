@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import {
+  FIELD_AUTOCOMPLETE,
   FIELD_TEXT,
   FIELD_RADIO,
   CHECKED_FALSE,
@@ -7,6 +8,7 @@ import {
 } from '../../constants/AppConstants';
 import { DASHBOARD_PAGE_NAME, DASHBOARD_URL, FORM_CONFIRMATION_URL } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
+import { portList } from './TempMockList-port';
 
 const SecondPage = () => {
   const navigate = useNavigate();
@@ -32,6 +34,14 @@ const SecondPage = () => {
           message: 'Enter your first name',
         },
       ],
+    },
+    {
+      type: FIELD_AUTOCOMPLETE,
+      label: 'Select your port',
+      fieldName: 'port',
+      dataAPIEndpoint: portList,
+      responseKey: 'name'
+      // responseKeys: {name: 'name', unlocode: 'unlocode'},
     },
     {
       type: FIELD_RADIO,
