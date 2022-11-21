@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Autocomplete from 'accessible-autocomplete/react';
+import { useEffect } from 'react';
 
 // there is an open PR to fix the aria-activedescendent issue: 
 // https://github.com/alphagov/accessible-autocomplete/issues/434
@@ -13,13 +14,7 @@ import Autocomplete from 'accessible-autocomplete/react';
 // some explanation of aria-activedescendant: https://www.holisticseo.digital/technical-seo/web-accessibility/aria-activedescendant/
 
 const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) => {
-  console.log('error', error);
-  // TODO: defaultValue just setting the name
-  // problem happening in I think the template function
-  // I would expect it to return nothing, but it's returning undefined
-  // Preference is for the dropdown to behave as it does after you select an item e.g. doesn't show again until two more keystrokes
-
-  const [currentValue, setCurrentValue] = useState(fieldDetails.value || '');
+  console.log('renderpage', error);
   const responseKey = fieldDetails.responseKey;
 
   const suggest = (userQuery, populateResults) => {
@@ -36,29 +31,7 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
     populateResults(filteredResults);
   };
 
-  const handleOnConfirm = (e) => {
-    if (!e) { return; }
-    let displayValue;
-    if (fieldDetails.additionalKey && e[fieldDetails.additionalKey]) {
-      displayValue = `${e[responseKey]} ${e[fieldDetails.additionalKey]}`;
-    } else {
-      displayValue = e[responseKey];
-    }
-
-    const formattedEvent = {
-      target: {
-        name: fieldDetails.fieldName,
-        value: displayValue,
-        additionalDetails: {
-          [fieldDetails.fieldName]: e
-        },
-      }
-    };
-    handleChange(formattedEvent);
-    setCurrentValue(e[responseKey]);
-  };
-
-  function template(result) {
+  const template = (result) => {
     let response;
     if (result && result[responseKey]) {
       // this occurs when user has typed in the field
@@ -72,8 +45,47 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
       return;
     }
 
+    console.log('response', response)
     return response;
-  }
+  };
+
+  const handleOnConfirm = (e) => {
+    if (!e) { return; }
+    let displayValue;
+
+    // For when we want to show concatenated value e.g. port name + port unlocode
+    if (fieldDetails.additionalKey && e[fieldDetails.additionalKey]) {
+      displayValue = `${e[responseKey]} ${e[fieldDetails.additionalKey]}`;
+    } else {
+      displayValue = e[responseKey];
+    }
+
+    // Formatted to send both the display value, and any additional field object information received from the API
+    const formattedEvent = {
+      target: {
+        name: fieldDetails.fieldName,
+        value: displayValue,
+        additionalDetails: {
+          [fieldDetails.fieldName]: e
+        },
+      }
+    };
+
+    handleChange(formattedEvent);
+  };
+
+  // See issue#424 at alphagov/accessible-autocomplete
+  // There is an ongoing issue around setting defaultValue when using template
+  // whereby the suggest doesn't run and so the dropdown shows 'undefined' instead of not opening/showing the value
+  // it also results in an error (seen in console) TypeError: Cannot read properties of undefined (reading 'toLowerCase') onBlur
+  // the workaround is to use javascript to set the value of the input which forces the suggest to run
+  useEffect(() => {
+    console.log(fieldDetails.value);
+    if (!fieldDetails.value) {
+      return;
+    }
+    document.getElementById(`${fieldDetails.fieldName}-input`).value = fieldDetails.value;
+  },[fieldDetails.value]);
 
   // using just a source list and not the templates in the autocomplete component results in console errors
   // related to specifying the input as `readonly` instead of `readOnly` and therefore the value being invalid
@@ -83,12 +95,11 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
   return (
     <>
       <Autocomplete
+        confirmOnBlur={false}
         data-testid={dataTestid}
-        defaultValue={currentValue}
         id={`${fieldDetails.fieldName}-input`}
         minLength={2}
         name={fieldDetails.fieldName}
-        showNoOptionsFound={false}
         source={suggest}
         templates={{
           inputValue: template,
