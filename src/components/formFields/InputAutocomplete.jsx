@@ -74,7 +74,7 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
     handleChange(formattedEvent);
   };
 
-  // See issue#424 at alphagov/accessible-autocomplete
+  // See issue#424, #495, at alphagov/accessible-autocomplete
   // There is an ongoing issue around setting defaultValue when using template
   // whereby the suggest doesn't run and so the dropdown shows 'undefined' instead of not opening/showing the value
   // it also results in an error (seen in console) TypeError: Cannot read properties of undefined (reading 'toLowerCase') onBlur/onConfirm
