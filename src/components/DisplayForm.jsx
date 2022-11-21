@@ -30,7 +30,7 @@ const DisplayForm = ({ fields, formId, formActions, handleSubmit }) => {
 
     // we do not store passwords in session data
     if (e.target.name !== FIELD_PASSWORD) {
-      setSessionData({ ...sessionData, dataSet});
+      setSessionData({ ...sessionData, ...dataSet});
       sessionStorage.setItem('formData', JSON.stringify({ ...sessionData, ...dataSet}));
     }
     // we do store all values into form data
