@@ -6,6 +6,7 @@ export const FIELD_EMAIL = 'email';
 export const FIELD_PASSWORD = 'password';
 export const FIELD_TEXT = 'text';
 export const FIELD_RADIO = 'radio';
+export const FIELD_CONDITIONAL = 'conditional';
 // Forms: states
 export const CHECKED_TRUE = true;
 export const CHECKED_FALSE = false;

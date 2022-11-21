@@ -3,10 +3,12 @@ import {
   FIELD_EMAIL,
   FIELD_PASSWORD,
   FIELD_TEXT,
-  FIELD_RADIO
+  FIELD_RADIO,
+  FIELD_CONDITIONAL
 } from '../../constants/AppConstants';
 import InputRadio from './InputRadio';
 import InputText from './InputText';
+import InputConditional from './InputConditional';
 
 const GroupedInputs = ({ error, fieldName, fieldToReturn, hint, label }) => {
   return (
@@ -44,7 +46,7 @@ const SingleInput = ({ error, fieldName, fieldToReturn, hint, label }) => {
   );
 };
 
-const determineFieldType = ({ error, fieldDetails, parentHandleChange }) => {
+const determineFieldType = ({ checkedOption, error, fieldDetails, parentHandleChange }) => {
   let fieldToReturn;
   switch (fieldDetails.type) {
 
@@ -79,9 +81,19 @@ const determineFieldType = ({ error, fieldDetails, parentHandleChange }) => {
 
     case FIELD_RADIO: fieldToReturn =
       <InputRadio
-         // there is no input level error styling on a radio button so we do not pass error down here
+        // there is no input level error styling on a radio button so we do not pass error down here
         fieldDetails={fieldDetails}
         handleChange={parentHandleChange}
+        type='radio'
+      />;
+      break;
+
+    case FIELD_CONDITIONAL: fieldToReturn =
+      <InputConditional
+        error={error}
+        fieldDetails={fieldDetails}
+        handleChange={parentHandleChange}
+        checkedOption={checkedOption}
         type='radio'
       />;
       break;

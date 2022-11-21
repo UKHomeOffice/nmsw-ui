@@ -38,7 +38,6 @@ const SecondPage = () => {
       type: FIELD_RADIO,
       label: 'What is your favourite colour',
       fieldName: 'favouriteColour',
-      className: 'govuk-radios',
       grouped: true,
       radioOptions: [
         {
@@ -79,57 +78,40 @@ const SecondPage = () => {
     },
     {
       type: FIELD_CONDITIONAL,
-      label: 'What is your favourite animal',
+      label: 'Cat',
       fieldName: 'favouriteAnimal',
-      className: 'govuk-radios',
-      grouped: true,
-      radioOptions: [
-        {
-          label: 'Cat',
-          name: 'favouriteAnimal',
-          id: 'cat',
-          value: 'cat',
-          checked: CHECKED_FALSE
-        },
-        {
-          label: 'Dog',
-          name: 'favouriteAnimal',
-          id: 'dog',
-          value: 'dog',
-          checked: CHECKED_FALSE,
-          conditional: true,
-          // Shows in form data storage but does not count as a field 
-          conditionalLabel: 'Enter your favourite dog',
-          conditionalName: 'favouriteAnimalDog',
-          conditionalId: 'favouriteAnimalDog',
-        },
-        // This field needs it's own validation, not getting it because it doesn't count as a field
-        {
-          label: 'Other',
-          name: 'favouriteAnimal',
-          id: 'other',
-          value: 'other',
-          checked: CHECKED_FALSE,
-          conditional: true,
-          // Shows in form data storage but does not count as a field 
-          conditionalLabel: 'Enter your favourite animal',
-          conditionalName: 'favouriteAnimalOther',
-          conditionalId: 'favouriteAnimalOther',
-          // validation: [
-          //   {
-          //     type: VALIDATE_REQUIRED,
-          //     message: 'Enter your favourite animal',
-          //   },
-          // ],
-        },
-      ],
+      value: 'cat',
+      checked: CHECKED_FALSE,
+      conditionalField: {
+        label: 'Enter your favourite type of cat',
+        fieldName: 'catBreed',
+        // validation: [
+        //   {
+        //     type: VALIDATE_REQUIRED,
+        //     message: 'Enter your favourite cat breed',
+        //   },
+        // ],
+      },
       validation: [
         {
           type: VALIDATE_REQUIRED,
-          message: 'Select your favourite animal',
+          message: 'Enter your favourite cat breed',
         },
       ],
     },
+
+    {
+      type: FIELD_TEXT,
+      label: 'Enter your favourite animal',
+      fieldName: 'favouriteAnimalOther',
+      className: 'govuk-radios__conditional govuk-radios__conditional--hidden',
+      // validation: [
+      //   {
+      //     type: VALIDATE_REQUIRED,
+      //     message: 'Enter your favourite animal',
+      //   },
+      // ],
+    }
   ];
 
   const handleSubmit = ({ formData }) => {

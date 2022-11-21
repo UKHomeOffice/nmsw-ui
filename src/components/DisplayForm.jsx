@@ -12,9 +12,32 @@ const DisplayForm = ({ fields, formId, formActions, handleSubmit }) => {
   const [errors, setErrors] = useState();
   const [fieldsWithValues, setFieldsWithValues] = useState();
   const [formData, setFormData] = useState({});
+  const [checkedOption, setCheckedOption] = useState();
   const [sessionData, setSessionData] = useState(JSON.parse(sessionStorage.getItem('formData')));
 
   const handleChange = (e) => {
+
+    // Couldn't find a good way to use multiple methods together to get the same result as this
+    const radioTemp = fieldsWithValues;
+    const selectedRadio = e.target.name;
+    const selectedRadioValue = e.target.value;
+    const foundSelected = radioTemp.find(object => object.fieldName === selectedRadio);
+    const radioValue = foundSelected.radioOptions.find(object => object.value === selectedRadioValue);
+    const checkedOption = {...radioValue, checked: true};
+
+    // console.log('selectedRadio', selectedRadio)
+    // console.log('foundSelected', foundSelected)
+    // console.log('radioValue', radioValue)
+    console.log('checkedValue', checkedOption);
+
+    // Tried setting classes here but they are not present on page load or reload - reads undefined as no change is made initially (caused issues on render)
+    // Probably a better way to do this? 🤔
+    if (checkedOption.checked && checkedOption.conditional) {
+      setCheckedOption(checkedOption);
+    } else {
+      setCheckedOption(false);
+    }
+
     if (errors) {
       // on change any error shown for that field should be cleared so find if field has an error & remove from error list
       const filteredErrors = errors?.filter(errorField => errorField.name !== e.target.name);
@@ -25,6 +48,7 @@ const DisplayForm = ({ fields, formId, formActions, handleSubmit }) => {
       setSessionData({ ...sessionData, [e.target.name]: e.target.value });
       sessionStorage.setItem('formData', JSON.stringify({ ...sessionData, [e.target.name]: e.target.value }));
     }
+    // if conditional clicked - render conditional logic 
     // we do store all values into form data
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -33,7 +57,7 @@ const DisplayForm = ({ fields, formId, formActions, handleSubmit }) => {
     e.preventDefault();
     const formErrors = await Validator({ formData: formData.formData, formFields: fields });
     setErrors(formErrors);
-    
+
     if (formErrors.length < 1) {
       /*
        * Returning formData
@@ -90,7 +114,7 @@ const DisplayForm = ({ fields, formId, formActions, handleSubmit }) => {
   useEffect(() => {
     let sessionDataArray;
     if (sessionData) {
-      sessionDataArray = Object.entries(sessionData).map(item => { return {name: item[0], value: item[1]}; });
+      sessionDataArray = Object.entries(sessionData).map(item => { return { name: item[0], value: item[1] }; });
     }
 
     const mappedFormFields = fields.map((field) => {
@@ -150,6 +174,7 @@ const DisplayForm = ({ fields, formId, formActions, handleSubmit }) => {
             >
               {
                 determineFieldType({
+                  checkedOption: checkedOption,
                   error: error?.message,
                   fieldDetails: field,
                   parentHandleChange: handleChange,

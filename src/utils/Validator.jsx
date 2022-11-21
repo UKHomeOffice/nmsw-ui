@@ -2,7 +2,7 @@ import {
   VALIDATE_EMAIL_ADDRESS,
   VALIDATE_MIN_LENGTH,
   VALIDATE_REQUIRED,
-  } from '../constants/AppConstants';
+} from '../constants/AppConstants';
 
 const validateField = ({ type, value, condition }) => {
   switch (type) {
@@ -16,11 +16,11 @@ const validateField = ({ type, value, condition }) => {
         return 'error';
       }
       break;
-      case VALIDATE_EMAIL_ADDRESS:
-        if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-          return 'error';
-        }
-        break;
+    case VALIDATE_EMAIL_ADDRESS:
+      if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+        return 'error';
+      }
+      break;
     default: return 'valid';
   }
 };
@@ -30,6 +30,7 @@ const Validator = ({ formData, formFields }) => {
     const key = field[0];
     const value = field[1];
     const rules = formFields.find(field => field.fieldName === key).validation; // find all the rules for this field, if any
+    console.log(formFields.find(field => field.fieldName === key).validation);
 
     if (rules) {
       rules.map((rule) => {
@@ -48,7 +49,7 @@ const Validator = ({ formData, formFields }) => {
     return result;
   }, []);
 
-return errors;
+  return errors;
 };
 
 export default Validator;
