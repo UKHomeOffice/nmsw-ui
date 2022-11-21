@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) => {
   console.log('renderpage', error);
   const responseKey = fieldDetails.responseKey;
+  const [hideCombo, setHideCombo] = useState(false);
 
   const suggest = (userQuery, populateResults) => {
     if (!userQuery) { return; }
@@ -31,6 +32,7 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
     populateResults(filteredResults);
   };
 
+
   const template = (result) => {
     let response;
     if (result && result[responseKey]) {
@@ -44,8 +46,6 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
       // this covers when user hasn't typed in field yet / field is null
       return;
     }
-
-    console.log('response', response)
     return response;
   };
 
@@ -77,21 +77,30 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
   // See issue#424 at alphagov/accessible-autocomplete
   // There is an ongoing issue around setting defaultValue when using template
   // whereby the suggest doesn't run and so the dropdown shows 'undefined' instead of not opening/showing the value
-  // it also results in an error (seen in console) TypeError: Cannot read properties of undefined (reading 'toLowerCase') onBlur
+  // it also results in an error (seen in console) TypeError: Cannot read properties of undefined (reading 'toLowerCase') onBlur/onConfirm
   // the workaround is to use javascript to set the value of the input which forces the suggest to run
+  // TODO: when fixed on alphagov/accessible-autocomplete, fix here
   useEffect(() => {
-    console.log(fieldDetails.value);
     if (!fieldDetails.value) {
       return;
     }
     document.getElementById(`${fieldDetails.fieldName}-input`).value = fieldDetails.value;
+    setHideCombo(true);
   },[fieldDetails.value]);
 
-  // using just a source list and not the templates in the autocomplete component results in console errors
-  // related to specifying the input as `readonly` instead of `readOnly` and therefore the value being invalid
-  // using the templates method to populate the list removes those errors
-  // we can also use the template function to format the unlocode/name into a valid string
+  useEffect(() => {
+    if (hideCombo) {
+      document.getElementById(`${fieldDetails.fieldName}-input__listbox`).className = 'autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden';
+      setHideCombo(false);
+    }
+  }, [hideCombo]);
+
+  // We need to use the template function to handle our results coming in objects
+  // this lets us format the strings to display as we like
   // for more details see https://github.com/alphagov/accessible-autocomplete
+  // we want the input value & suggestion to show the same value so both call the template function to return the same value
+  // if we wanted to show different values we could call separate functions, or define them in the template function to return 
+  // different results
   return (
     <>
       <Autocomplete
