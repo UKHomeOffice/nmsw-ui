@@ -41,7 +41,13 @@ const SecondPage = () => {
       label: 'Select your country',
       fieldName: 'country',
       dataAPIEndpoint: countries,
-      responseKey: 'name'
+      responseKey: 'name',
+      validation: [
+        {
+          type: VALIDATE_REQUIRED,
+          message: 'Select your country',
+        },
+      ],
     },
     {
       type: FIELD_AUTOCOMPLETE,
