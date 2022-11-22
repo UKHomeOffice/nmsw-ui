@@ -13,10 +13,9 @@ import { useEffect } from 'react';
 // and false is an invalid value for it.
 // some explanation of aria-activedescendant: https://www.holisticseo.digital/technical-seo/web-accessibility/aria-activedescendant/
 
-const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) => {
-  console.log('renderpage', error);
+const InputAutocomplete = ({ dataTestid, fieldDetails, handleChange }) => {
   const responseKey = fieldDetails.responseKey;
-  const [hideCombo, setHideCombo] = useState(false);
+  const [hideCombo, setHideCombo] = useState(false); // only used for defaultValue bug workaround
 
   const suggest = (userQuery, populateResults) => {
     if (!userQuery) { return; }
@@ -34,6 +33,9 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
 
 
   const template = (result) => {
+    // as the user types their query, this formats what is displayed in the input (inputValue)
+    // and combolist suggestions (suggestion)
+    // result being from the results of the suggest function
     let response;
     if (result && result[responseKey]) {
       // this occurs when user has typed in the field
@@ -53,14 +55,16 @@ const InputAutocomplete = ({ dataTestid, error, fieldDetails, handleChange }) =>
     if (!e) { return; }
     let displayValue;
 
-    // For when we want to show concatenated value e.g. port name + port unlocode
+    // Returns either a concatenated value if required and available e.g. port name + port unlocode
+    // Or the single string e.g. ports without a unlocode, field that does not have an additionalKey set
     if (fieldDetails.additionalKey && e[fieldDetails.additionalKey]) {
       displayValue = `${e[responseKey]} ${e[fieldDetails.additionalKey]}`;
     } else {
       displayValue = e[responseKey];
     }
 
-    // Formatted to send both the display value, and any additional field object information received from the API
+    // We want to include both the display value, and any additional field object information received from the API
+    // So the page's handleSubmit can decide what to send on the POST/PUT call
     const formattedEvent = {
       target: {
         name: fieldDetails.fieldName,
