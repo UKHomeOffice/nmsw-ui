@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DisplayForm from '../../components/DisplayForm';
 import { FIELD_RADIO, CHECKED_TRUE, CHECKED_FALSE } from '../../constants/AppConstants';
 import cookieToFind from '../../utils/cookieToFind';
-import { scrollToElementId } from '../../utils/ScrollToElementId';
+import { scrollToElementId } from '../../utils/ScrollToElement';
 import setAnalyticCookie from '../../utils/setAnalyticCookie';
 
 const CookiePolicy = ({ setIsCookieBannerShown }) => {

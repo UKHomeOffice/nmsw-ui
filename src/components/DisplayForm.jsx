@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { EXPANDED_DETAILS, FIELD_PASSWORD } from '../constants/AppConstants';
 import { UserContext } from '../context/userContext';
 import determineFieldType from './formFields/DetermineFieldType';
-import { scrollToElementId } from '../utils/ScrollToElementId';
+import { scrollToH1 } from '../utils/ScrollToElement';
 import Validator from '../utils/Validator';
 
 const DisplayForm = ({ fields, formId, formActions, handleSubmit }) => {
@@ -52,7 +52,7 @@ const DisplayForm = ({ fields, formId, formActions, handleSubmit }) => {
       handleSubmit(formData);
       sessionStorage.removeItem('formData');
     } else {
-      scrollToElementId(formId);
+      scrollToH1();
     }
   };
 

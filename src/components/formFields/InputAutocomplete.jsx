@@ -125,6 +125,7 @@ const InputAutocomplete = ({ error, fieldDetails, handleChange }) => {
 };
 
 InputAutocomplete.propTypes = {
+  error: PropTypes.string,
   fieldDetails: PropTypes.shape({
     // dataAPIEndpoint: PropTypes.string.isRequired, // when we implement the endpoint
     dataAPIEndpoint: PropTypes.array.isRequired, // for while we're passing in a mocked array of data
