@@ -1,8 +1,9 @@
 import {
+  EXPANDED_DETAILS,
   VALIDATE_EMAIL_ADDRESS,
   VALIDATE_MIN_LENGTH,
   VALIDATE_REQUIRED,
-  } from '../constants/AppConstants';
+} from '../constants/AppConstants';
 
 const validateField = ({ type, value, condition }) => {
   switch (type) {
@@ -16,11 +17,11 @@ const validateField = ({ type, value, condition }) => {
         return 'error';
       }
       break;
-      case VALIDATE_EMAIL_ADDRESS:
-        if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-          return 'error';
-        }
-        break;
+    case VALIDATE_EMAIL_ADDRESS:
+      if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+        return 'error';
+      }
+      break;
     default: return 'valid';
   }
 };
@@ -29,13 +30,19 @@ const Validator = ({ formData, formFields }) => {
   const fieldsToValidate = Object.entries(formData).reduce((result, field) => { // result is our accumulator that starts as an empty array as defined at end of reduce
     const key = field[0];
     const value = field[1];
-    const rules = formFields.find(field => field.fieldName === key).validation; // find all the rules for this field, if any
 
-    if (rules) {
-      rules.map((rule) => {
-        result.push({ key, value, rule }); // for each rule for this field, push an entry to the result array
-      });
+    if (key.includes(EXPANDED_DETAILS)) {
+      result.push();
+    } else {
+      const rules = formFields.find(field => field.fieldName === key).validation; // find all the rules for this field, if any
+
+      if (rules) {
+        rules.map((rule) => {
+          result.push({ key, value, rule }); // for each rule for this field, push an entry to the result array
+        });
+      }
     }
+
     return result; // we will then have an array with unique(field + rule), and if a field has more than one rule it will have multiple entries in the array
   }, []);
 
@@ -48,7 +55,7 @@ const Validator = ({ formData, formFields }) => {
     return result;
   }, []);
 
-return errors;
+  return errors;
 };
 
 export default Validator;

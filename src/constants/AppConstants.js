@@ -1,6 +1,8 @@
 // Site
 export const SERVICE_NAME = 'National Maritime Single Window';
 
+// Forms: identifiers
+export const EXPANDED_DETAILS = 'ExpandedDetails';
 // Forms: input types
 export const FIELD_AUTOCOMPLETE = 'autocomplete';
 export const FIELD_EMAIL = 'email';

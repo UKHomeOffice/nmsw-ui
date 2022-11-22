@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FIELD_PASSWORD } from '../constants/AppConstants';
+import { EXPANDED_DETAILS, FIELD_PASSWORD } from '../constants/AppConstants';
 import { UserContext } from '../context/userContext';
 import determineFieldType from './formFields/DetermineFieldType';
 import { scrollToElementId } from '../utils/ScrollToElementId';
@@ -25,7 +25,7 @@ const DisplayForm = ({ fields, formId, formActions, handleSubmit }) => {
 
     // create the dataset to store, accounting for objects coming from autocomplete
     const dataSet = e.target.additionalDetails 
-      ? { [`${[e.target.name]}ExpandedDetails`]: e.target.additionalDetails, [e.target.name]: e.target.value }
+      ? { [`${[e.target.name]}${EXPANDED_DETAILS}`]: e.target.additionalDetails, [e.target.name]: e.target.value }
       :  { [e.target.name]: e.target.value };
 
     // we do not store passwords in session data
