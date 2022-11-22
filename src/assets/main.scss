@@ -91,3 +91,12 @@ body {
 }
 
 
+// ===================
+// Form Overrides
+// ===================
+.autocomplete-input .autocomplete__wrapper input {
+  border-color:  $govuk-input-border-colour;
+}
+.autocomplete-input--error .autocomplete__wrapper input {
+  border-color:  $govuk-error-colour;
+}

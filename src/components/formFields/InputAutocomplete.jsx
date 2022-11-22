@@ -13,7 +13,8 @@ import { useEffect } from 'react';
 // and false is an invalid value for it.
 // some explanation of aria-activedescendant: https://www.holisticseo.digital/technical-seo/web-accessibility/aria-activedescendant/
 
-const InputAutocomplete = ({ fieldDetails, handleChange }) => {
+const InputAutocomplete = ({ error, fieldDetails, handleChange }) => {
+  const classToApply = error ? 'autocomplete-input--error' : 'autocomplete-input';
   const responseKey = fieldDetails.responseKey;
   const [hideListBox, setHideListBox] = useState(false); // only used for defaultValue bug workaround
 
@@ -106,7 +107,7 @@ const InputAutocomplete = ({ fieldDetails, handleChange }) => {
   // if we wanted to show different values we could call separate functions, or define them in the template function to return 
   // different results
   return (
-    <>
+    <div className={classToApply}>
       <Autocomplete
         confirmOnBlur={false}
         id={`${fieldDetails.fieldName}-input`}
@@ -119,7 +120,7 @@ const InputAutocomplete = ({ fieldDetails, handleChange }) => {
         }}
         onConfirm={(e) => handleOnConfirm(e)}
       />
-    </>
+    </div>
   );
 };
 
