@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DisplayForm from '../DisplayForm';
 import {
+  FIELD_AUTOCOMPLETE,
   FIELD_EMAIL,
   FIELD_PASSWORD,
   FIELD_RADIO,
@@ -9,7 +10,7 @@ import {
   VALIDATE_EMAIL_ADDRESS,
   VALIDATE_MIN_LENGTH,
   VALIDATE_REQUIRED,
-  } from '../../constants/AppConstants';
+} from '../../constants/AppConstants';
 
 /*
  * These tests check that we can pass a variety of
@@ -26,6 +27,7 @@ describe('Display Form', () => {
   const handleSubmit = jest.fn();
   let scrollIntoViewMock = jest.fn();
   window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+  // For action buttons
   const formActions = {
     submit: {
       className: 'govuk-button',
@@ -51,51 +53,35 @@ describe('Display Form', () => {
       type: 'button',
     },
   };
-  const formMandatoryTextInput = [
+  // For formFields
+  const formRequiredAutocompleteInput = [
     {
-      type: FIELD_TEXT,
-      label: 'Text input',
-      hint: 'This is a hint for a text input',
-      fieldName: 'testField',
+      type: FIELD_AUTOCOMPLETE,
+      label: 'Autocomplete input',
+      fieldName: 'items',
+      hint: 'Hint for Autocomplete input',
+      dataAPIEndpoint: [
+        {
+          name: 'ObjectOne',
+          identifier: 'one'
+        },
+        {
+          name: 'ObjectTwo',
+          identifier: 'two'
+        },
+        {
+          name: 'ObjectThree',
+          identifier: 'three'
+        },
+      ], // for while we're passing in a mocked array of data
+      responseKey: 'name',
       validation: [
         {
           type: VALIDATE_REQUIRED,
-          message: 'Enter your text input value',
+          message: 'Select your Autocomplete input item',
         },
       ],
-    }
-  ];
-  const formMinimumLengthTextInput = [
-    {
-      type: FIELD_TEXT,
-      label: 'Text input',
-      fieldName: 'testField',
-      validation: [
-        {
-          type: VALIDATE_MIN_LENGTH,
-          message: 'Field must be a minimum of 8 characters',
-          condition: 8,
-        },
-      ],
-    }
-  ];
-  const formMultipleValidationRules = [
-    {
-      type: FIELD_TEXT,
-      label: 'Text input',
-      fieldName: 'testField',
-      validation: [
-        {
-          type: VALIDATE_REQUIRED,
-          message: 'Enter your text input value',
-        },
-        {
-          type: VALIDATE_MIN_LENGTH,
-          message: 'Field must be a minimum of 8 characters',
-          condition: 8,
-        },
-      ],
-    }
+    },
   ];
   const formRequiredRadioInput = [
     {
@@ -136,6 +122,20 @@ describe('Display Form', () => {
       ],
     },
   ];
+  const formRequiredTextInput = [
+    {
+      type: FIELD_TEXT,
+      label: 'Text input',
+      hint: 'This is a hint for a text input',
+      fieldName: 'testField',
+      validation: [
+        {
+          type: VALIDATE_REQUIRED,
+          message: 'Enter your text input value',
+        },
+      ],
+    }
+  ];
   const formSpecialInputs = [
     {
       type: FIELD_TEXT,
@@ -168,10 +168,25 @@ describe('Display Form', () => {
   ];
   const formWithMultipleFields = [
     {
-      type: FIELD_TEXT,
-      label: 'Text input',
-      hint: 'This is a hint for a text input',
-      fieldName: 'testField',
+      type: FIELD_AUTOCOMPLETE,
+      label: 'Autocomplete input',
+      fieldName: 'items',
+      hint: 'Hint for Autocomplete input',
+      dataAPIEndpoint: [
+        {
+          name: 'ObjectOne',
+          identifier: 'one'
+        },
+        {
+          name: 'ObjectTwo',
+          identifier: 'two'
+        },
+        {
+          name: 'ObjectThree',
+          identifier: 'three'
+        },
+      ], // for while we're passing in a mocked array of data
+      responseKey: 'name',
     },
     {
       type: FIELD_PASSWORD,
@@ -202,17 +217,57 @@ describe('Display Form', () => {
         },
       ]
     },
+    {
+      type: FIELD_TEXT,
+      label: 'Text input',
+      hint: 'This is a hint for a text input',
+      fieldName: 'testField',
+    },
+  ];
+  // For formFields.validation
+  const formMinimumLengthTextInput = [
+    {
+      type: FIELD_TEXT,
+      label: 'Text input',
+      fieldName: 'testField',
+      validation: [
+        {
+          type: VALIDATE_MIN_LENGTH,
+          message: 'Field must be a minimum of 8 characters',
+          condition: 8,
+        },
+      ],
+    }
+  ];
+  const formMultipleValidationRules = [
+    {
+      type: FIELD_TEXT,
+      label: 'Text input',
+      fieldName: 'testField',
+      validation: [
+        {
+          type: VALIDATE_REQUIRED,
+          message: 'Enter your text input value',
+        },
+        {
+          type: VALIDATE_MIN_LENGTH,
+          message: 'Field must be a minimum of 8 characters',
+          condition: 8,
+        },
+      ],
+    }
   ];
 
   beforeEach(() => {
     window.sessionStorage.clear();
   });
 
+  // Action buttons
   it('should render a submit and cancel button if both exist', () => {
     render(
       <DisplayForm
         formId="testForm"
-        fields={formMandatoryTextInput}
+        fields={formRequiredTextInput}
         formActions={formActions}
         handleSubmit={handleSubmit}
       />
@@ -225,7 +280,7 @@ describe('Display Form', () => {
     render(
       <DisplayForm
         formId="testForm"
-        fields={formMandatoryTextInput}
+        fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
         handleSubmit={handleSubmit}
       />
@@ -239,7 +294,7 @@ describe('Display Form', () => {
     render(
       <DisplayForm
         formId="testForm"
-        fields={formMandatoryTextInput}
+        fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
         handleSubmit={handleSubmit}
       />
@@ -252,18 +307,20 @@ describe('Display Form', () => {
     expect(handleSubmit).toHaveBeenCalled();
   });
 
-  it('should render a text input', () => {
+  // Render field by type
+  it('should render an autocomplete input', async () => {
     render(
       <DisplayForm
         formId="testForm"
-        fields={formMandatoryTextInput}
+        fields={formRequiredAutocompleteInput}
         formActions={formActionsSubmitOnly}
         handleSubmit={handleSubmit}
       />
     );
-    expect(screen.getByLabelText('Text input')).toBeInTheDocument();
-    expect(screen.getByText('This is a hint for a text input').outerHTML).toEqual('<div id="testField-hint" class="govuk-hint">This is a hint for a text input</div>');
-    expect(screen.getByRole('textbox', { name: 'Text input' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Autocomplete input')).toBeInTheDocument();
+    expect(screen.getByText('Hint for Autocomplete input').outerHTML).toEqual('<div id="items-hint" class="govuk-hint">Hint for Autocomplete input</div>');
+    expect(screen.getByRole('combobox', { name: 'Autocomplete input' })).toBeInTheDocument();
+    expect(screen.getByRole('listbox', { name: '' })).toBeInTheDocument();
   });
 
   it('should render a radio button input', () => {
@@ -283,6 +340,20 @@ describe('Display Form', () => {
     expect(screen.getByRole('radio', { name: 'Radio one' })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'Radio two' })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'Radio three' })).toBeInTheDocument();
+  });
+
+  it('should render a text input', () => {
+    render(
+      <DisplayForm
+        formId="testForm"
+        fields={formRequiredTextInput}
+        formActions={formActionsSubmitOnly}
+        handleSubmit={handleSubmit}
+      />
+    );
+    expect(screen.getByLabelText('Text input')).toBeInTheDocument();
+    expect(screen.getByText('This is a hint for a text input').outerHTML).toEqual('<div id="testField-hint" class="govuk-hint">This is a hint for a text input</div>');
+    expect(screen.getByRole('textbox', { name: 'Text input' })).toBeInTheDocument();
   });
 
   it('should render the special input types', () => {
@@ -308,12 +379,13 @@ describe('Display Form', () => {
     expect(screen.getByTestId('password-passwordField')).toBeInTheDocument();
   });
 
+  // Render & manage errors
   it('should render error summary & field error if there are field errors', async () => {
     const user = userEvent.setup();
     render(
       <DisplayForm
         formId="testForm"
-        fields={formMandatoryTextInput}
+        fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
         handleSubmit={handleSubmit}
       />
@@ -374,7 +446,7 @@ describe('Display Form', () => {
     render(
       <DisplayForm
         formId="testForm"
-        fields={formMandatoryTextInput}
+        fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
         handleSubmit={handleSubmit}
       />
@@ -408,7 +480,7 @@ describe('Display Form', () => {
     render(
       <DisplayForm
         formId="testForm"
-        fields={formMandatoryTextInput}
+        fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
         handleSubmit={handleSubmit}
       />
@@ -421,9 +493,10 @@ describe('Display Form', () => {
     await user.type(screen.getByRole('textbox', { name: 'Text input' }), 'Hello');
     // error class and message is cleared
     expect(screen.getByRole('textbox', { name: 'Text input' }).outerHTML).toEqual('<input class="govuk-input" id="testField-input" name="testField" type="text" aria-describedby="testField-hint" value="">');
-    
+
   });
 
+  // Store, prefill, and clear during session
   it('should store form data in the session for use on refresh', async () => {
     const user = userEvent.setup();
     const expectedStoredData = '{"testField":"Hello","radioButtonSet":"radioTwo"}';
@@ -439,6 +512,7 @@ describe('Display Form', () => {
     expect(screen.getByLabelText('Text input')).toHaveValue('Hello');
     await user.click(screen.getByRole('radio', { name: 'Radio two' }));
     expect(screen.getByRole('radio', { name: 'Radio two' })).toBeChecked();
+
     expect(window.sessionStorage.getItem('formData')).toStrictEqual(expectedStoredData);
   });
 
@@ -476,6 +550,28 @@ describe('Display Form', () => {
     expect(window.sessionStorage.getItem('formData')).toStrictEqual(expectedStoredData);
   });
 
+  it('should store expanded data if it is provided from an autocomplete field', async () => {
+    const user = userEvent.setup();
+    const expectedStoredData = '{"testField":"Hello","radioButtonSet":"radioTwo","itemsExpandedDetails":{"items":{"name":"ObjectTwo","identifier":"two"}},"items":"ObjectTwo"}';
+    render(
+      <DisplayForm
+        formId="testForm"
+        fields={formWithMultipleFields}
+        formActions={formActionsSubmitOnly}
+        handleSubmit={handleSubmit}
+      />
+    );
+    await user.type(screen.getByLabelText('Text input'), 'Hello');
+    expect(screen.getByLabelText('Text input')).toHaveValue('Hello');
+    await user.click(screen.getByRole('radio', { name: 'Radio two' }));
+    expect(screen.getByRole('radio', { name: 'Radio two' })).toBeChecked();
+    await user.type(screen.getByRole('combobox', { name: 'Autocomplete input' }), 'Object');
+    await user.click(screen.getByText('ObjectTwo'));
+    expect(screen.getByRole('combobox', { name: 'Autocomplete input' })).toHaveValue('ObjectTwo');
+
+    expect(window.sessionStorage.getItem('formData')).toStrictEqual(expectedStoredData);
+  });
+
   it('should clear session data when form is ready to submit', async () => {
     const user = userEvent.setup();
     const expectedStoredData = '{"testField":"Hello Test Field","radioButtonSet":"radioOne"}';
@@ -497,3 +593,4 @@ describe('Display Form', () => {
     expect(window.sessionStorage.getItem('formData')).toStrictEqual(null);
   });
 });
+

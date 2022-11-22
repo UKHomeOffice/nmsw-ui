@@ -13,9 +13,9 @@ import { useEffect } from 'react';
 // and false is an invalid value for it.
 // some explanation of aria-activedescendant: https://www.holisticseo.digital/technical-seo/web-accessibility/aria-activedescendant/
 
-const InputAutocomplete = ({ dataTestid, fieldDetails, handleChange }) => {
+const InputAutocomplete = ({ fieldDetails, handleChange }) => {
   const responseKey = fieldDetails.responseKey;
-  const [hideCombo, setHideCombo] = useState(false); // only used for defaultValue bug workaround
+  const [hideListBox, setHideListBox] = useState(false); // only used for defaultValue bug workaround
 
   const suggest = (userQuery, populateResults) => {
     if (!userQuery) { return; }
@@ -89,15 +89,15 @@ const InputAutocomplete = ({ dataTestid, fieldDetails, handleChange }) => {
       return;
     }
     document.getElementById(`${fieldDetails.fieldName}-input`).value = fieldDetails.value;
-    setHideCombo(true);
+    setHideListBox(true);
   },[fieldDetails.value]);
 
   useEffect(() => {
-    if (hideCombo) {
+    if (hideListBox) {
       document.getElementById(`${fieldDetails.fieldName}-input__listbox`).className = 'autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden';
-      setHideCombo(false);
+      setHideListBox(false);
     }
-  }, [hideCombo]);
+  }, [hideListBox]);
 
   // We need to use the template function to handle our results coming in objects
   // this lets us format the strings to display as we like
@@ -109,7 +109,6 @@ const InputAutocomplete = ({ dataTestid, fieldDetails, handleChange }) => {
     <>
       <Autocomplete
         confirmOnBlur={false}
-        data-testid={dataTestid}
         id={`${fieldDetails.fieldName}-input`}
         minLength={2}
         name={fieldDetails.fieldName}
@@ -125,8 +124,6 @@ const InputAutocomplete = ({ dataTestid, fieldDetails, handleChange }) => {
 };
 
 InputAutocomplete.propTypes = {
-  dataTestid: PropTypes.string,
-  error: PropTypes.string,
   fieldDetails: PropTypes.shape({
     // dataAPIEndpoint: PropTypes.string.isRequired, // when we implement the endpoint
     dataAPIEndpoint: PropTypes.array.isRequired, // for while we're passing in a mocked array of data
