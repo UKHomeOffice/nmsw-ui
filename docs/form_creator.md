@@ -108,14 +108,9 @@ Your `Page` must contain
 Object structure:
 
 ```
-<<<<<<< HEAD
 <action>: {
   className: <required>,
   label: <required>,
-=======
-[action]: {
-  label: [required],
->>>>>>> 4a7c597 (Update form docs)
 }
 ```
 If cancel button:
