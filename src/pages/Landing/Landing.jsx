@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { SERVICE_NAME } from '../../constants/AppConstants';
-import { DASHBOARD_URL, SIGN_IN_URL } from '../../constants/AppUrlConstants';
+import { DASHBOARD_URL, REGISTER_ACCOUNT, SIGN_IN_URL } from '../../constants/AppUrlConstants';
 import useUserIsPermitted from '../../hooks/useUserIsPermitted';
 
 const Landing = () => {
@@ -10,6 +10,7 @@ const Landing = () => {
   return (
     <>
       <h1 className="govuk-heading-l" data-testid="landing-h1">{SERVICE_NAME}</h1>
+      <Link to ={REGISTER_ACCOUNT}>Create account</Link>
       <p className="govuk-body">Use this service to:</p>
       <Link 
         to={isAuthenticated ? DASHBOARD_URL : SIGN_IN_URL}
