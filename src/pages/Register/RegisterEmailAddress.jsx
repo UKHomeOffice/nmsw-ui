@@ -61,7 +61,7 @@ const RegisterEmailAddress = () => {
           formId='formRegisterEmailAddress'
           fields={formFields}
           formActions={formActions}
-          pageHeading='Second page'
+          pageHeading='What is your email address'
           handleSubmit={handleSubmit}
         />
       </div>
