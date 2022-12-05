@@ -10,6 +10,7 @@ const Landing = () => {
   return (
     <>
       <h1 className="govuk-heading-l" data-testid="landing-h1">{SERVICE_NAME}</h1>
+      <Link to ={REGISTER_ACCOUNT}>Create account</Link>
       <p className="govuk-body">Use this service to:</p>
       <p className="govuk-body" data-testid="createAccountParagraph">You&apos;ll also need to sign in or <Link to ={REGISTER_ACCOUNT}>create an account</Link> to use this service</p>
       <Link 
