@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { FIELD_EMAIL, VALIDATE_EMAIL_ADDRESS, VALIDATE_REQUIRED } from '../../constants/AppConstants';
+import { FIELD_EMAIL, VALIDATE_EMAIL_ADDRESS, VALIDATE_FIELD_MATCH, VALIDATE_REQUIRED } from '../../constants/AppConstants';
 import { REGISTER_DETAILS } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
 
@@ -39,6 +39,11 @@ const RegisterEmailAddress = () => {
         {
           type: VALIDATE_REQUIRED,
           message: 'Confirm your email address'
+        },
+        {
+          type: VALIDATE_FIELD_MATCH,
+          message: 'Your email addresses must match',
+          condition: 'emailAddress',
         },
       ]
     }
