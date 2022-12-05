@@ -525,6 +525,18 @@ Specifically tests if the value entered matches the value of another field.
 }
 ```
 
+#### Match
+Specifically tests if the value entered matches the value of another field.
+
+```
+{
+  type: VALIDATE_MATCH,
+  message: [error message to show in UI],
+  condition: [field name to match]
+  },
+}
+```
+
 #### Minimum Length
 Specifically tests if the length of the value entered is > the number specified in the `conditions` entry.
 This test only runs if there is a value in the field and is ignored if field is null.
