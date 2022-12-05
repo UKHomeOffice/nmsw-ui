@@ -20,7 +20,8 @@ Specific inputs
 Validating fields
 - [Required](#Required)
 - [Conditional](#Conditional)
-- [Email](#Email)
+- [Email Format](#EmailFormat)
+- [Match](#Match)
 - [Minimum Length](#MinimumLength)
 
 
@@ -388,7 +389,7 @@ The validation is run based on the rules entered in the nested `condition` objec
 }
 ```
 
-#### Email
+#### Email Format
 Specifically tests if the value entered matches an email pattern.
 This test only runs if there is a value in the field and is ignored if field is null.
 
@@ -396,6 +397,18 @@ This test only runs if there is a value in the field and is ignored if field is 
 {
   type: VALIDATE_EMAIL,
   message: [error message to show in UI]
+  },
+}
+```
+
+#### Match
+Specifically tests if the value entered matches the value of another field.
+
+```
+{
+  type: VALIDATE_MATCH,
+  message: [error message to show in UI],
+  condition: [field name to match]
   },
 }
 ```
