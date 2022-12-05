@@ -373,36 +373,27 @@ const SecondPage = () => {
 
   const handleSubmit = async (e, formData) => {
     e.preventDefault();
-    const formErrors = await Validator({ formData: formData.formData, formFields: formFields });
-    setErrors(formErrors);
-
-    if (formErrors.length < 1) {
-      navigate(
-        FORM_CONFIRMATION_URL,
-        {
-          state: {
-            formName: 'Example form',
-            nextPageLink: DASHBOARD_URL,
-            nextPageName: DASHBOARD_PAGE_NAME,
-            referenceNumber: referenceNumber
-          }
+    navigate(
+      FORM_CONFIRMATION_URL,
+      {
+        state: {
+          formName: 'Example form',
+          nextPageLink: DASHBOARD_URL,
+          nextPageName: DASHBOARD_PAGE_NAME,
+          referenceNumber: referenceNumber
         }
-      );
-    } else {
-      scrollToElementId('formSecondPage');
-    }
+      }
+    );
   };
 
   return (
     <div className="govuk-grid-row">
-      <h1>Second page</h1>
       <DisplayForm
         formId='formSecondPage'
-        errors={errors}
         fields={formFields}
         formActions={formActions}
+        pageHeading='Second page'
         handleSubmit={handleSubmit}
-        setErrors={setErrors}
       />
     </div >
   );
