@@ -8,6 +8,7 @@ import {
   FIELD_PASSWORD,
   FIELD_RADIO,
   FIELD_TEXT,
+  SINGLE_PAGE_FORM,
   VALIDATE_CONDITIONAL,
   VALIDATE_EMAIL_ADDRESS,
   VALIDATE_MIN_LENGTH,
@@ -368,6 +369,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredTextInput}
         formActions={formActions}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -381,6 +383,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -395,6 +398,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -413,6 +417,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredAutocompleteInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -428,6 +433,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredRadioInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -447,6 +453,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formWithMultipleFields}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -466,6 +473,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -480,6 +488,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formSpecialInputs}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -505,6 +514,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formWithMultipleFields}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -527,6 +537,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -547,6 +558,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredConditionalTextInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -569,6 +581,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formMinimumLengthTextInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -590,6 +603,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formMultipleValidationRules}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -610,6 +624,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -626,6 +641,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredRadioInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -644,6 +660,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formRequiredTextInput}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -667,6 +684,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formWithMultipleFields}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -689,6 +707,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formWithMultipleFields}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -707,6 +726,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formWithMultipleFields}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
@@ -726,6 +746,7 @@ describe('Display Form', () => {
         formId="testForm"
         fields={formWithMultipleFields}
         formActions={formActionsSubmitOnly}
+        formType={SINGLE_PAGE_FORM}
         handleSubmit={handleSubmit}
       />
     );
