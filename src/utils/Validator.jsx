@@ -3,6 +3,7 @@ import {
   VALIDATE_EMAIL_ADDRESS,
   VALIDATE_FIELD_MATCH,
   VALIDATE_MIN_LENGTH,
+  VALIDATE_PHONE_NUMBER,
   VALIDATE_REQUIRED,
 } from '../constants/AppConstants';
 
@@ -25,6 +26,11 @@ const validateField = ({ type, value, condition }) => {
       break;
     case VALIDATE_FIELD_MATCH:
       if (value && value !== condition.valueToMatch) {
+        return 'error';
+      }
+      break;
+    case VALIDATE_PHONE_NUMBER:
+      if (value && !/^\([0-9]+\)[0-9]+$/i.test(value)) {
         return 'error';
       }
       break;

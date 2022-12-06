@@ -2,8 +2,8 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const InputPhoneNumber = ({ fieldDetails, handleChange }) => {
-  const [countryCode, setCountryCode] = useState(fieldDetails.value.split('(').pop().split(')')[0] || null);
-  const [phoneNumber, setPhoneNumber] = useState(fieldDetails.value.split(')')[1] || null);
+  const [countryCode, setCountryCode] = useState(fieldDetails.value?.split('(').pop().split(')')[0] || null);
+  const [phoneNumber, setPhoneNumber] = useState(fieldDetails.value?.split(')')[1] || null);
 
   const formatDataAndHandleChange = (e) => {
     let countryCodeEntered = countryCode || '';
