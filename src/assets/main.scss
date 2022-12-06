@@ -50,6 +50,14 @@ body {
   border-color:  $govuk-error-colour;
 }
 
+.phoneNumber-input {
+  display: flex;
+  flex-direction: row;
+}
+.phoneNumber-input_country-code {
+  margin-right: 0.5rem;
+}
+
 // ========================
 // Button & Link Overrides
 // ========================
