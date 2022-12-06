@@ -3,6 +3,8 @@ export const SERVICE_NAME = 'National Maritime Single Window';
 
 // Forms: identifiers
 export const EXPANDED_DETAILS = 'ExpandedDetails';
+export const MULTI_PAGE_FORM = 'multiPage';
+export const SINGLE_PAGE_FORM = 'singlePage';
 // Forms: input types
 export const FIELD_AUTOCOMPLETE = 'autocomplete';
 export const FIELD_CONDITIONAL = 'conditional';

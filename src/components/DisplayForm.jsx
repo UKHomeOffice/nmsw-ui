@@ -46,6 +46,7 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit, c
 
   const handleValidation = async (e, formData) => {
     e.preventDefault();
+    console.log(e.target)
     const formErrors = await Validator({ formData: formData.formData, formFields: fields });
     setErrors(formErrors);
 
@@ -57,7 +58,11 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit, c
        * so we always pass formData back
        */
       handleSubmit(formData);
-      sessionStorage.removeItem('formData');
+      sessionStorage.removeItem('formData'); 
+      // TODO
+      // remove handleSubmit and sessionStorage from handleValidation
+      // update submit button to call handleButtonSubmit > calls handleSubmit(formData) and sessionStorage.removeItem('formData)
+      // add a continue button to call handleButtonContinue > calls handleSubmit(formData) BUT not session storage clearing
     } else {
       scrollToTop();
     }
@@ -236,6 +241,7 @@ DisplayForm.propTypes = {
       type: PropTypes.string.isRequired,
     })
   ),
+  formType: PropTypes.string.isRequired,
   pageHeading: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };

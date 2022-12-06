@@ -1,5 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { FIELD_EMAIL, VALIDATE_EMAIL_ADDRESS, VALIDATE_FIELD_MATCH, VALIDATE_REQUIRED } from '../../constants/AppConstants';
+import {
+  FIELD_EMAIL,
+  MULTI_PAGE_FORM,
+  VALIDATE_EMAIL_ADDRESS,
+  VALIDATE_FIELD_MATCH,
+  VALIDATE_REQUIRED
+} from '../../constants/AppConstants';
 import { REGISTER_DETAILS } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
 
@@ -72,6 +78,7 @@ const RegisterEmailAddress = () => {
           formId='formRegisterEmailAddress'
           fields={formFields}
           formActions={formActions}
+          formType={MULTI_PAGE_FORM}
           pageHeading='What is your email address'
           handleSubmit={handleSubmit}
         >
