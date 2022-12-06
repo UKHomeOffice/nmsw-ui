@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import {
+  FIELD_PHONE,
   FIELD_RADIO,
   FIELD_TEXT,
   MULTI_PAGE_FORM,
@@ -44,6 +45,17 @@ const RegisterYourDetails = () => {
       ]
     },
     {
+      type: FIELD_PHONE,
+      fieldName: 'phoneNumber',
+      label: 'Phone number',
+      validation: [
+        {
+          type: VALIDATE_REQUIRED,
+          message: 'Enter your phone number'
+        },
+      ]
+    },
+    {
       type: FIELD_TEXT,
       fieldName: 'country',
       label: 'Country',
@@ -72,6 +84,12 @@ const RegisterYourDetails = () => {
           value: 'no',
         },
       ],
+      validation: [
+        {
+          type: VALIDATE_REQUIRED,
+          message: 'Select is your company a shipping agent'
+        },
+      ]
     },
   ];
 

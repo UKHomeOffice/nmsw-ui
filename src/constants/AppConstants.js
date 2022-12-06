@@ -10,6 +10,7 @@ export const FIELD_AUTOCOMPLETE = 'autocomplete';
 export const FIELD_CONDITIONAL = 'conditional';
 export const FIELD_EMAIL = 'email';
 export const FIELD_PASSWORD = 'password';
+export const FIELD_PHONE = 'phoneNumber';
 export const FIELD_TEXT = 'text';
 export const FIELD_RADIO = 'radio';
 // Forms: states

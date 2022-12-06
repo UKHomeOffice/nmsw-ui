@@ -4,11 +4,13 @@ import {
   FIELD_CONDITIONAL,
   FIELD_EMAIL,
   FIELD_PASSWORD,
+  FIELD_PHONE,
   FIELD_TEXT,
   FIELD_RADIO
 } from '../../constants/AppConstants';
 import InputAutocomplete from './InputAutocomplete';
 import InputConditional from './InputConditional';
+import InputPhoneNumber from './InputPhoneNumber';
 import InputRadio from './InputRadio';
 import InputText from './InputText';
 
@@ -88,6 +90,14 @@ const determineFieldType = ({ allErrors, error, fieldDetails, parentHandleChange
         dataTestid={`${fieldDetails.fieldName}-passwordField`}
       />;
       break;
+
+      case FIELD_PHONE: fieldToReturn =
+        <InputPhoneNumber
+          error={error}
+          fieldDetails={fieldDetails}
+          handleChange={parentHandleChange}
+        />;
+        break;
 
     case FIELD_RADIO: fieldToReturn =
       <InputRadio
