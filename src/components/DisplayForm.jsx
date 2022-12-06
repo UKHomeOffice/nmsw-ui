@@ -1,12 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { EXPANDED_DETAILS, FIELD_CONDITIONAL, FIELD_PASSWORD } from '../constants/AppConstants';
+import { EXPANDED_DETAILS, FIELD_CONDITIONAL, FIELD_PASSWORD, SINGLE_PAGE_FORM } from '../constants/AppConstants';
 import { UserContext } from '../context/userContext';
 import determineFieldType from './formFields/DetermineFieldType';
 import { scrollToTop } from '../utils/ScrollToElement';
 import Validator from '../utils/Validator';
 
-const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit, children }) => {
+const DisplayForm = ({ fields, formId, formActions, formType, pageHeading, handleSubmit, children }) => {
   const { user } = useContext(UserContext);
   const fieldsRef = useRef(null);
   const [errors, setErrors] = useState();
@@ -46,7 +46,6 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit, c
 
   const handleValidation = async (e, formData) => {
     e.preventDefault();
-    console.log(e.target)
     const formErrors = await Validator({ formData: formData.formData, formFields: fields });
     setErrors(formErrors);
 
@@ -58,11 +57,7 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit, c
        * so we always pass formData back
        */
       handleSubmit(formData);
-      sessionStorage.removeItem('formData'); 
-      // TODO
-      // remove handleSubmit and sessionStorage from handleValidation
-      // update submit button to call handleButtonSubmit > calls handleSubmit(formData) and sessionStorage.removeItem('formData)
-      // add a continue button to call handleButtonContinue > calls handleSubmit(formData) BUT not session storage clearing
+      if (formType === SINGLE_PAGE_FORM) { sessionStorage.removeItem('formData'); }
     } else {
       scrollToTop();
     }
@@ -74,7 +69,7 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit, c
     const fieldLabelNode = fieldMap.get(error.name);
     fieldLabelNode?.scrollIntoView();
     // /* TODO: replace with useRef/forwardRef */
-    // radio buttons and checkbox lists add their index key to their id so we can find and focus on them
+    // radio buttons, checkbox lists and grouped inputs add their index key to their id so we can find and focus on them
     document.getElementById(`${error.name}-input`) ? document.getElementById(`${error.name}-input`).focus() : document.getElementById(`${error.name}-input[0]`).focus();
   };
 
@@ -116,6 +111,7 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit, c
     const mappedFormFields = fields.map((field) => {
       let valuesToAdd;
       const sessionDataValue = sessionDataArray?.find(sessionDataField => sessionDataField.name === field.fieldName);
+
       if (field.type === FIELD_CONDITIONAL) {
         const conditionalField = field.radioOptions.find(field => field.parentFieldValue === sessionDataValue?.value);
         const sessionConditionalValue = sessionDataArray?.find(sessionDataField => sessionDataField.name === conditionalField?.name);
