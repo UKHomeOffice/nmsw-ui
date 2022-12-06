@@ -16,7 +16,7 @@ const GroupedInputs = ({ error, fieldName, fieldToReturn, hint, label }) => {
   return (
     <div className={error ? 'govuk-form-group govuk-form-group--error' : 'govuk-form-group'}>
       <fieldset className="govuk-fieldset">
-        <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
+        <legend className="govuk-fieldset__legend">
           {label}
         </legend>
         <div id={`${fieldName}-hint`} className="govuk-hint">
