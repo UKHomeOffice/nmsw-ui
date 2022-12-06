@@ -6,7 +6,7 @@ const InputRadio = ({ autoComplete, fieldDetails, handleChange, type }) => {
       {(fieldDetails.radioOptions).map((option, index) => {
         const checkedState = fieldDetails.value === option.value ? true : option.checked;
         return (
-          <div className="govuk-radios__item" key={option.id}>
+          <div className="govuk-radios__item" key={`${option.name}-input[${index}]`}>
             <input
               className="govuk-radios__input"
               id={`${option.name}-input[${index}]`}
@@ -37,7 +37,6 @@ InputRadio.propTypes = {
     className: PropTypes.string,
     radioOptions: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
