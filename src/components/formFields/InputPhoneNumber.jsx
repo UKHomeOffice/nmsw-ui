@@ -2,13 +2,10 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const InputPhoneNumber = ({ fieldDetails, handleChange }) => {
-  const [countryCode, setCountryCode] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
+  const [countryCode, setCountryCode] = useState(fieldDetails.value.split('(').pop().split(')')[0] || null);
+  const [phoneNumber, setPhoneNumber] = useState(fieldDetails.value.split(')')[1] || null);
 
-  const formatDataAndHandleChange = (e) => { 
-    // API takes a single value for phone number 
-    // formats phone number as a single item
-    // we will extract it back from value and format for the value pieces here
+  const formatDataAndHandleChange = (e) => {
     let countryCodeEntered = countryCode || '';
     let phoneNumberEntered = phoneNumber || '';
 
@@ -27,11 +24,6 @@ const InputPhoneNumber = ({ fieldDetails, handleChange }) => {
       }
     };
 
-    // we will have a phone number validator that pattern matches that it includes the country code and number
-    // so we don't have to worry about ensuring all pieces exist here
-    // just pass what is entered
-
-
     handleChange(formattedItemToAdd);
   };
 
@@ -39,27 +31,27 @@ const InputPhoneNumber = ({ fieldDetails, handleChange }) => {
     <div className="phoneNumber-input">
       <input
         className="govuk-input govuk-input--width-5 phoneNumber-input_country-code"
-        id={`${fieldDetails.fieldName}-input[0]`} 
+        id={`${fieldDetails.fieldName}-input[0]`}
         name={`${fieldDetails.fieldName}CountryCode`}
         type="text"
         inputMode="numeric"
         onChange={formatDataAndHandleChange}
         onPaste={formatDataAndHandleChange}
-        defaultValue={fieldDetails.value}
+        defaultValue={countryCode}
         aria-describedby={fieldDetails.hint ? `${fieldDetails.fieldName}-hint` : null}
       />
       <input
         className="govuk-input"
-        id={`${fieldDetails.fieldName}-input[1]`} 
+        id={`${fieldDetails.fieldName}-input[1]`}
         name={`${fieldDetails.fieldName}PhoneNumber`}
         type="tel"
         autoComplete="tel"
         onChange={formatDataAndHandleChange}
         onPaste={formatDataAndHandleChange}
-        defaultValue={fieldDetails.value}
+        defaultValue={phoneNumber}
         aria-describedby={fieldDetails.hint ? `${fieldDetails.fieldName}-hint` : null}
       />
-  </div>
+    </div>
   );
 };
 
