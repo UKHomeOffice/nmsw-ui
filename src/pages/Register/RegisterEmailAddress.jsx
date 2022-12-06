@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import {
   FIELD_EMAIL,
-  MULTI_PAGE_FORM,
+  SINGLE_PAGE_FORM,
   VALIDATE_EMAIL_ADDRESS,
   VALIDATE_FIELD_MATCH,
   VALIDATE_REQUIRED
@@ -67,10 +67,20 @@ const RegisterEmailAddress = () => {
   ];
 
   const handleSubmit = async (e, formData) => {
+    // This will trigger a POST to /registration endpoint
+    // with { "email": "example@mail.com" }
     console.log('submit', e, formData);
+    // For now it will then take the user to the next form page
+    // In future it will take the user to the verification process started page
     navigate(REGISTER_DETAILS);
   };
 
+  /*
+   * This is a single page form as in it's final form pre launch it will
+   * be used to collect a users email address and then trigger the
+   * validate email process
+   * The next page will be a confirmation of verification process started page
+   */
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
@@ -78,7 +88,7 @@ const RegisterEmailAddress = () => {
           formId='formRegisterEmailAddress'
           fields={formFields}
           formActions={formActions}
-          formType={MULTI_PAGE_FORM}
+          formType={SINGLE_PAGE_FORM}
           pageHeading='What is your email address'
           handleSubmit={handleSubmit}
         >
