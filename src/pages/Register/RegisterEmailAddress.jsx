@@ -3,6 +3,17 @@ import { FIELD_EMAIL, VALIDATE_EMAIL_ADDRESS, VALIDATE_FIELD_MATCH, VALIDATE_REQ
 import { REGISTER_DETAILS } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
 
+const SupportingText = () => {
+  return (
+    <>
+      <div className="govuk-inset-text">
+        <p className="govuk-body">This will only be used if you need to recover your sign in details.</p>
+        <p className="govuk-body">To confirm it is your email address we will send you a verification link.</p>
+      </div>
+    </>
+  );
+};
+
 const RegisterEmailAddress = () => {
   const navigate = useNavigate();
 
@@ -63,7 +74,9 @@ const RegisterEmailAddress = () => {
           formActions={formActions}
           pageHeading='What is your email address'
           handleSubmit={handleSubmit}
-        />
+        >
+          <SupportingText />
+        </DisplayForm>
       </div>
     </div>
   );

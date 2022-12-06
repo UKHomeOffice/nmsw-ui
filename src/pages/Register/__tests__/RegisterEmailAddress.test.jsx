@@ -17,10 +17,11 @@ describe('Register email address tests', () => {
     expect(screen.getByText('What is your email address')).toBeInTheDocument();
   });
 
-  // it('should render two intro insets', async () => {
-  //   render(<MemoryRouter><RegisterEmailAddres /></MemoryRouter>);
-  //   expect(screen.getByText('What is your email address')).toBeInTheDocument();
-  // });
+  it('should render an intro inset', async () => {
+    render(<MemoryRouter><RegisterEmailAddres /></MemoryRouter>);
+    expect(screen.getByText('This will only be used if you need to recover your sign in details.')).toBeInTheDocument();
+    expect(screen.getByText('To confirm it is your email address we will send you a verification link.')).toBeInTheDocument();
+  });
 
   it('should render two email address fields', async () => {
     render(<MemoryRouter><RegisterEmailAddres /></MemoryRouter>);
