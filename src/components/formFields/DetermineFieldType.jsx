@@ -92,12 +92,12 @@ const determineFieldType = ({ allErrors, error, fieldDetails, parentHandleChange
       break;
 
       case FIELD_PHONE: fieldToReturn =
-        <InputPhoneNumber
-          error={error}
-          fieldDetails={fieldDetails}
-          handleChange={parentHandleChange}
-        />;
-        break;
+      <InputPhoneNumber
+        error={error}
+        fieldDetails={fieldDetails}
+        handleChange={parentHandleChange}
+      />;
+      break;
 
     case FIELD_RADIO: fieldToReturn =
       <InputRadio

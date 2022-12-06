@@ -51,7 +51,7 @@ const RegisterYourDetails = () => {
       validation: [
         {
           type: VALIDATE_REQUIRED,
-          message: 'Enter your phone number'
+          message: 'Enter phone number'
         },
       ]
     },
