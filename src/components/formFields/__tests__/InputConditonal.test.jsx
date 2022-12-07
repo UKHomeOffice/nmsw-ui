@@ -175,6 +175,22 @@ describe('Conditional input field generation', () => {
     expect(screen.getByTestId('breedOfDog-container').outerHTML).toEqual('<div data-testid="breedOfDog-container" class="govuk-radios__conditional"><div class="govuk-form-group"><label class="govuk-label" for="breedOfDog-input">Breed of dog</label><div id="breedOfDog-hint" class="govuk-hint"></div><p id="breedOfDog-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> </p><input class="govuk-input govuk-!-width-one-third" id="breedOfDog-input" name="breedOfDog" type="text" value=""></div></div>');
   });
 
+  it('should clear values of conditional fields if they become hidden', async () => {
+    const user = userEvent.setup();
+    render(
+      <InputConditional
+        fieldDetails={fieldDetailsBasic}
+        handleChange={parentHandleChange}
+      />
+    );
+    
+    await user.click(screen.getByRole('radio', { name: 'Dog' }));
+    await user.type(screen.getByRole('radio', { name: 'Dog' }), 'Labrador');
+    await user.click(screen.getByRole('radio', { name: 'Rabbit' }));
+    // Dog breed should be hidden with no value
+    expect(screen.getByTestId('breedOfDog-container').outerHTML).toEqual('<div data-testid="breedOfDog-container" class="govuk-radios__conditional govuk-radios__conditional--hidden"><div class="govuk-form-group"><label class="govuk-label" for="breedOfDog-input">Breed of dog</label><div id="breedOfDog-hint" class="govuk-hint"></div><p id="breedOfDog-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> </p><input class="govuk-input govuk-!-width-one-third" id="breedOfDog-input" name="breedOfDog" type="text" value=""></div></div>');
+  });
+
   it('should render the hint on the conditional text field if one provided', async () => {
     const user = userEvent.setup();
     render(

@@ -22,7 +22,8 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit })
 
     if (errors) {
       // on change any error shown for that field should be cleared so find if field has an error & remove from error list
-      const filteredErrors = errors?.filter(errorField => errorField.name !== e.target.name);
+      const itemToCheck = itemToClear ? itemToClear.target.name : e.target.name;
+      const filteredErrors = errors?.filter(errorField => errorField.name !== itemToCheck);
       setErrors(filteredErrors);
     }
 
