@@ -18,11 +18,11 @@ const SecondPage = () => {
 
   const formActions = {
     submit: {
-      className: 'govuk-button',
-      dataModule: 'govuk-button',
-      dataTestid: 'submit-button',
       label: 'Save',
-      type: 'button',
+    },
+    cancel: {
+      label: 'Cancel',
+      redirectURL: DASHBOARD_URL
     }
   };
   const formFields = [
