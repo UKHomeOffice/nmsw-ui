@@ -18,11 +18,7 @@ const SignIn = (userDetails) => {
   // Form fields
   const formActions = {
     submit: {
-      className: 'govuk-button',
-      dataModule: 'govuk-button',
-      dataTestid: 'submit-button',
       label: 'Sign in',
-      type: 'button',
     }
   };
   const formFields = [

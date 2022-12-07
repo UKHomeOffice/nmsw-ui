@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { EXPANDED_DETAILS, FIELD_CONDITIONAL, FIELD_PASSWORD } from '../constants/AppConstants';
 import { UserContext } from '../context/userContext';
@@ -9,6 +10,7 @@ import Validator from '../utils/Validator';
 const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit }) => {
   const { user } = useContext(UserContext);
   const fieldsRef = useRef(null);
+  const navigate = useNavigate();
   const [errors, setErrors] = useState();
   const [fieldsWithValues, setFieldsWithValues] = useState();
   const [formData, setFormData] = useState({});
@@ -43,6 +45,11 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit })
     }
     // we do store all values into form data
     setFormData({ ...formData, ...dataSet });
+  };
+
+  const handleCancel = (redirectURL) => {
+    sessionStorage.removeItem('formData');
+    navigate(redirectURL);
   };
 
   const handleValidation = async (e, formData) => {
@@ -189,20 +196,21 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit })
         }
         <div className="govuk-button-group">
           <button
-            type={formActions.submit.type}
-            className={formActions.submit.className}
-            data-module={formActions.submit.dataModule}
-            data-testid={formActions.submit.dataTestid}
+            type='button'
+            className='govuk-button'
+            data-module='govuk-button'
+            data-testid='submit-button'
             onClick={(e) => handleValidation(e, { formData })}
           >
             {formActions.submit.label}
           </button>
           {
             formActions.cancel && <button
-              type={formActions.cancel.type}
-              className={formActions.cancel.className}
-              data-module={formActions.cancel.dataModule}
-              data-testid={formActions.cancel.dataTestid}
+              type='button'
+              className='govuk-button govuk-button--secondary'
+              data-module='govuk-button'
+              data-testid='cancel-button'
+              onClick={() => handleCancel(formActions.cancel.redirectURL)}
             >
               {formActions.cancel.label}
             </button>
@@ -226,14 +234,15 @@ DisplayForm.propTypes = {
     }),
   ).isRequired,
   formId: PropTypes.string.isRequired,
-  formActions: PropTypes.objectOf(
-    PropTypes.shape({
-      className: PropTypes.string.isRequired,
-      dataModule: PropTypes.string,
-      dataTestid: PropTypes.string,
+  formActions: PropTypes.shape({
+    submit: PropTypes.shape({
       label: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
+    }),
+    cancel: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      redirectURL: PropTypes.string.isRequired
     })
+  }
   ),
   pageHeading: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
