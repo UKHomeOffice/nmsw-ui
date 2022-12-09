@@ -52,7 +52,7 @@ const TextField = ({ errors, hint, isVisible, label, name, value, handleChange }
 
 
 const InputConditional = ({ errors, fieldDetails, handleChange }) => {
-  const [activeConditionalField, setActiveConditionalField] = useState();
+  const [activeConditionalField, setActiveConditionalField] = useState(fieldDetails.conditionalValueToFill);
   const [checkedItem, setCheckedItem] = useState(fieldDetails.value);
   const [conditionalDefaultValue, setConditionalDefaultValue] = useState(fieldDetails.conditionalValueToFill?.value);
 
@@ -75,6 +75,7 @@ const InputConditional = ({ errors, fieldDetails, handleChange }) => {
       setActiveConditionalField(conditionalField);
       setConditionalDefaultValue(null); // once the field is changed the default is no longer valid
     }
+
     handleChange(e, formattedItemToClear);
   };
 

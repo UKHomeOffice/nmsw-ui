@@ -17,11 +17,7 @@ const CookiePolicy = ({ setIsCookieBannerShown }) => {
 
   const formActions = {
     submit: {
-      className: 'govuk-button',
-      dataModule: 'govuk-button',
-      dataTestid: 'save-button',
       label: 'Save cookie settings',
-      type: 'button',
     }
   };
   const formFields = [
