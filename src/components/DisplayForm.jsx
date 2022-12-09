@@ -7,7 +7,7 @@ import determineFieldType from './formFields/DetermineFieldType';
 import { scrollToTop } from '../utils/ScrollToElement';
 import Validator from '../utils/Validator';
 
-const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit }) => {
+const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit, children }) => {
   const { user } = useContext(UserContext);
   const fieldsRef = useRef(null);
   const navigate = useNavigate();
@@ -165,6 +165,7 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit })
         </div>
       )}
       <h1 className="govuk-heading-l">{pageHeading}</h1>
+      {children}
       <form id={formId} autoComplete="off">
         {
           fieldsWithValues.map((field) => {
@@ -224,6 +225,7 @@ const DisplayForm = ({ fields, formId, formActions, pageHeading, handleSubmit })
 export default DisplayForm;
 
 DisplayForm.propTypes = {
+  children: PropTypes.node, // allows any renderable object
   fields: PropTypes.arrayOf(
     PropTypes.shape({
       fieldName: PropTypes.string.isRequired,
