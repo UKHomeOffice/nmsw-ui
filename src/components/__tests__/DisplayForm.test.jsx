@@ -569,7 +569,6 @@ describe('Display Form', () => {
           handleSubmit={handleSubmit}
         />
       </MemoryRouter>
-<<<<<<< HEAD
     );
 
     await user.click(screen.getByRole('radio', { name: 'Cat' }));
@@ -655,7 +654,8 @@ describe('Display Form', () => {
           fields={formRequiredRadioInput}
           formActions={formActionsSubmitOnly}
           handleSubmit={handleSubmit}
-        /></MemoryRouter>
+        />
+      </MemoryRouter>
     );
     await user.click(screen.getByRole('button', { name: 'Submit test button' }));
     await user.click(screen.getByRole('button', { name: 'Select your radio option' }));
@@ -674,7 +674,8 @@ describe('Display Form', () => {
           fields={formRequiredTextInput}
           formActions={formActionsSubmitOnly}
           handleSubmit={handleSubmit}
-        /></MemoryRouter>
+        />
+      </MemoryRouter>
     );
 
     await user.click(screen.getByRole('button', { name: 'Submit test button' }));
@@ -684,6 +685,7 @@ describe('Display Form', () => {
     await user.type(screen.getByRole('textbox', { name: 'Text input' }), 'Hello');
     // error class and message is cleared
     expect(screen.getByRole('textbox', { name: 'Text input' }).outerHTML).toEqual('<input class="govuk-input" id="testField-input" name="testField" type="text" aria-describedby="testField-hint" value="">');
+
 
   });
 
@@ -696,8 +698,6 @@ describe('Display Form', () => {
         formActions={formActionsSubmitOnly}
         handleSubmit={handleSubmit}
       />
-=======
->>>>>>> fdb51d9 (Add test for cancel button)
     );
 
     await user.click(screen.getByRole('radio', { name: 'Cat' }));
@@ -709,119 +709,12 @@ describe('Display Form', () => {
     expect(screen.getByRole('button', { name: 'Enter a breed of cat' }).outerHTML).toEqual('<button class="govuk-button--text">Enter a breed of cat</button>');
     // // Input field has the error class attached
     expect(screen.getByTestId('breedOfCat-container').outerHTML).toEqual('<div data-testid="breedOfCat-container" class="govuk-radios__conditional"><div class="govuk-form-group govuk-form-group--error"><label class="govuk-label" for="breedOfCat-input">Breed of cat</label><div id="breedOfCat-hint" class="govuk-hint"></div><p id="breedOfCat-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> Enter a breed of cat</p><input class="govuk-input govuk-!-width-one-third govuk-input--error" id="breedOfCat-input" name="breedOfCat" type="text" value=""></div></div>');
-<<<<<<< HEAD
   
     await user.click(screen.getByRole('radio', { name: 'Rabbit' }));
     expect(screen.queryByText('Enter a breed of cat')).not.toBeInTheDocument();
     // // Input field does not have the error class attached
     expect(screen.getByTestId('breedOfCat-container').outerHTML).toEqual('<div data-testid="breedOfCat-container" class="govuk-radios__conditional govuk-radios__conditional--hidden"><div class="govuk-form-group"><label class="govuk-label" for="breedOfCat-input">Breed of cat</label><div id="breedOfCat-hint" class="govuk-hint"></div><p id="breedOfCat-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> </p><input class="govuk-input govuk-!-width-one-third" id="breedOfCat-input" name="breedOfCat" type="text" value=""></div></div>');
   
-=======
-  });
-
-  it('should return an error if a minimum character count is not met', async () => {
-    const user = userEvent.setup();
-    render(
-      <MemoryRouter>
-        <DisplayForm
-          formId="testForm"
-          fields={formMinimumLengthTextInput}
-          formActions={formActionsSubmitOnly}
-          handleSubmit={handleSubmit}
-        />
-      </MemoryRouter>
-    );
-    await user.type(screen.getByLabelText('Text input'), 'Ab');
-    await user.click(screen.getByRole('button', { name: 'Submit test button' }));
-
-    expect(screen.getByText('There is a problem').outerHTML).toEqual('<h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>');
-    expect(screen.getAllByText('Field must be a minimum of 8 characters')).toHaveLength(2);
-    // Error summary has the error message as a button and correct class
-    expect(screen.getByRole('button', { name: 'Field must be a minimum of 8 characters' }).outerHTML).toEqual('<button class="govuk-button--text">Field must be a minimum of 8 characters</button>');
-    // Input field has the error class attached
-    expect(screen.getByRole('textbox', { name: 'Text input' }).outerHTML).toEqual('<input class="govuk-input govuk-input--error" id="testField-input" name="testField" type="text" value="">');
-  });
-
-  it('should return the error for the first failing validation rule if there are multiple rules', async () => {
-    const user = userEvent.setup();
-    render(
-      <MemoryRouter>
-        <DisplayForm
-          formId="testForm"
-          fields={formMultipleValidationRules}
-          formActions={formActionsSubmitOnly}
-          handleSubmit={handleSubmit}
-        />
-      </MemoryRouter>
-    );
-    await user.click(screen.getByRole('button', { name: 'Submit test button' }));
-
-    expect(screen.getByText('There is a problem').outerHTML).toEqual('<h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>');
-    expect(screen.getAllByText('Enter your text input value')).toHaveLength(2);
-    // Error summary has the error message as a button and correct class
-    expect(screen.getByRole('button', { name: 'Enter your text input value' }).outerHTML).toEqual('<button class="govuk-button--text">Enter your text input value</button>');
-    // Input field has the error class attached
-    expect(screen.getByRole('textbox', { name: 'Text input' }).outerHTML).toEqual('<input class="govuk-input govuk-input--error" id="testField-input" name="testField" type="text" value="">');
-  });
-
-  it('should scroll to erroring field if user clicks an error summary link for a single input field', async () => {
-    const user = userEvent.setup();
-    render(
-      <MemoryRouter>
-        <DisplayForm
-          formId="testForm"
-          fields={formRequiredTextInput}
-          formActions={formActionsSubmitOnly}
-          handleSubmit={handleSubmit}
-        />
-      </MemoryRouter>
-    );
-    await user.click(screen.getByRole('button', { name: 'Submit test button' }));
-    await user.click(screen.getByRole('button', { name: 'Enter your text input value' }));
-    expect(scrollIntoViewMock).toHaveBeenCalled();
-    expect(screen.getByRole('textbox', { name: /Text input/i })).toHaveFocus();
-  });
-
-  it('should scroll to erroring field if user clicks an error summary link for a radio button set', async () => {
-    const user = userEvent.setup();
-    render(
-      <MemoryRouter>
-        <DisplayForm
-          formId="testForm"
-          fields={formRequiredRadioInput}
-          formActions={formActionsSubmitOnly}
-          handleSubmit={handleSubmit}
-        /></MemoryRouter>
-    );
-    await user.click(screen.getByRole('button', { name: 'Submit test button' }));
-    await user.click(screen.getByRole('button', { name: 'Select your radio option' }));
-    expect(scrollIntoViewMock).toHaveBeenCalled();
-    expect(screen.getByRole('radio', { name: /Radio one/i })).toHaveFocus();
-  });
-
-  it('should clear the error message when user interacts with the field', async () => {
-    // the setErrors function should clear the error message from the field when it is called from this scenario
-    // we will test that it does clear in Cypress tests
-    const user = userEvent.setup();
-    render(
-      <MemoryRouter>
-        <DisplayForm
-          formId="testForm"
-          fields={formRequiredTextInput}
-          formActions={formActionsSubmitOnly}
-          handleSubmit={handleSubmit}
-        /></MemoryRouter>
-    );
-
-    await user.click(screen.getByRole('button', { name: 'Submit test button' }));
-    // Input field has the error class attached as component rendered with errors > 0
-    expect(screen.getByRole('textbox', { name: 'Text input' }).outerHTML).toEqual('<input class="govuk-input govuk-input--error" id="testField-input" name="testField" type="text" aria-describedby="testField-hint" value="">');
-    // user starts to type
-    await user.type(screen.getByRole('textbox', { name: 'Text input' }), 'Hello');
-    // error class and message is cleared
-    expect(screen.getByRole('textbox', { name: 'Text input' }).outerHTML).toEqual('<input class="govuk-input" id="testField-input" name="testField" type="text" aria-describedby="testField-hint" value="">');
-
->>>>>>> fdb51d9 (Add test for cancel button)
   });
 
   // PREFILLING DATA
@@ -835,7 +728,8 @@ describe('Display Form', () => {
           fields={formWithMultipleFields}
           formActions={formActionsSubmitOnly}
           handleSubmit={handleSubmit}
-        /></MemoryRouter>
+        />
+      </MemoryRouter>
     );
     await user.type(screen.getByLabelText('Text input'), 'Hello');
     expect(screen.getByLabelText('Text input')).toHaveValue('Hello');
@@ -892,14 +786,12 @@ describe('Display Form', () => {
     const user = userEvent.setup();
     const expectedStoredData = '{"radioWithConditional":"optionNoConditional","conditionalTextInput":null}';
     render(
-      <MemoryRouter>
-        <DisplayForm
-          formId="testForm"
-          fields={formWithMultipleFields}
-          formActions={formActionsSubmitOnly}
-          handleSubmit={handleSubmit}
-        />
-      </MemoryRouter>
+      <DisplayForm
+        formId="testForm"
+        fields={formWithMultipleFields}
+        formActions={formActionsSubmitOnly}
+        handleSubmit={handleSubmit}
+      />
     );
     
     await user.click(screen.getByRole('radio', { name: 'Option that has a conditional' }));
@@ -954,4 +846,5 @@ describe('Display Form', () => {
     expect(mockedUseNavigate).toHaveBeenCalledWith(DASHBOARD_URL);
     expect(window.sessionStorage.getItem('formData')).toStrictEqual(null);
   });
+
 });
