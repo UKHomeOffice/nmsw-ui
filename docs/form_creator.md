@@ -113,6 +113,7 @@ Object structure:
   label: <required>,
 }
 ```
+
 If cancel button:
 ```
 <action>: {
@@ -510,21 +511,6 @@ This test only runs if there is a value in the field and is ignored if field is 
 {
   type: VALIDATE_EMAIL,
   message: <error message to show in UI>
-<<<<<<< HEAD
-  },
-}
-```
-
-#### Match
-Specifically tests if the value entered matches the value of another field.
-
-```
-{
-  type: VALIDATE_MATCH,
-  message: <error message to show in UI>,
-  condition: <field name to match>
-=======
->>>>>>> 8d63c4a (Update docs (including some for next PR related to phone numbers))
   },
 }
 ```

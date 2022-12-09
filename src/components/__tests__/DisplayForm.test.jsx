@@ -685,8 +685,6 @@ describe('Display Form', () => {
     await user.type(screen.getByRole('textbox', { name: 'Text input' }), 'Hello');
     // error class and message is cleared
     expect(screen.getByRole('textbox', { name: 'Text input' }).outerHTML).toEqual('<input class="govuk-input" id="testField-input" name="testField" type="text" aria-describedby="testField-hint" value="">');
-
-
   });
 
   it('should clear a conditional field error if a user selects a new radio option', async () => {
@@ -846,5 +844,4 @@ describe('Display Form', () => {
     expect(mockedUseNavigate).toHaveBeenCalledWith(DASHBOARD_URL);
     expect(window.sessionStorage.getItem('formData')).toStrictEqual(null);
   });
-
 });
