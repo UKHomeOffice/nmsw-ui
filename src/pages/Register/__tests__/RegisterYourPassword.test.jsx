@@ -27,7 +27,6 @@ describe('Register password tests', () => {
   window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
 
   beforeEach(() => {
-
     window.sessionStorage.clear();
   });
 
