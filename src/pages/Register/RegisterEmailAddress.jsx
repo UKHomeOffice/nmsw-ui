@@ -7,7 +7,7 @@ import {
   VALIDATE_FIELD_MATCH,
   VALIDATE_REQUIRED
 } from '../../constants/AppConstants';
-import { REGISTER_DETAILS } from '../../constants/AppUrlConstants';
+import { REGISTER_EMAIL_VERIFIED } from '../../constants/AppUrlConstants';
 import usePostData from '../../hooks/usePostData';
 import DisplayForm from '../../components/DisplayForm';
 
@@ -77,7 +77,7 @@ const RegisterEmailAddress = () => {
         }
       });
       if (response && response.id) { // using response.id as the indicator of success as status isn't passed back on success yet
-        navigate(REGISTER_DETAILS);
+        navigate(REGISTER_EMAIL_VERIFIED);
       } else {
         console.log('error', response);
       }
