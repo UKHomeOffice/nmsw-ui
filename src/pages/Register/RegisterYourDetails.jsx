@@ -8,8 +8,9 @@ import {
   VALIDATE_PHONE_NUMBER,
   VALIDATE_REQUIRED
 } from '../../constants/AppConstants';
-import { REGISTER_PASSWORD } from '../../constants/AppUrlConstants';
+import { REGISTER_PASSWORD, REGISTER_EMAIL_VERIFIED } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
+import { useEffect } from 'react';
 
 const RegisterYourDetails = () => {
   const navigate = useNavigate();
@@ -103,9 +104,21 @@ const RegisterYourDetails = () => {
 
   const handleSubmit = async (formData) => {
     const dataToSubmit = { ...state?.dataToSubmit, ...formData.formData };
-    console.log('submit', formData);
     navigate(REGISTER_PASSWORD, { state: { dataToSubmit: dataToSubmit } });
   };
+
+  /* 
+   * Without an email address we can't submit the PATCH to update the user account
+   * So if a user arrives to this page and we do not have an email address in state
+   * we need to direct them to a place where they can deal with that
+   * TODO: once we have email verification flow journey replace REGISTER_EMAIL_VERIFIED
+   * with a more appropriate page
+   */
+  useEffect(() => {
+    if (!state || !state.dataToSubmit || !state.dataToSubmit.emailAddress) {
+      navigate(REGISTER_EMAIL_VERIFIED);
+    } 
+  }, [state]);
 
   return (
     <>
