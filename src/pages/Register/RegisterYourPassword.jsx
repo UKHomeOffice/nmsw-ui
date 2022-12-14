@@ -7,7 +7,7 @@ import {
   VALIDATE_MIN_LENGTH,
   VALIDATE_REQUIRED
 } from '../../constants/AppConstants';
-import { REGISTER_CONFIRMATION } from '../../constants/AppUrlConstants';
+import { ERROR_URL, REGISTER_CONFIRMATION, REGISTER_EMAIL_VERIFIED } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
 import usePatchData from '../../hooks/usePatchData';
 
@@ -86,21 +86,23 @@ const RegisterYourPassword = () => {
           groupTypeName: dataToSubmit.shippingAgent === 'yes' ? 'Shipping Agency' : 'Operator' // these are the only two valid public group types
         }
       });
-      if (response && response.id) { // using response.id as the indicator of success as status isn't passed back on success yet
+      if (response && response.data.id) { // using response.id as the indicator of success as status isn't passed back on success yet  
         sessionStorage.removeItem('formData');
         navigate(
           REGISTER_CONFIRMATION,
           {
             state: {
-              companyName: 'COMPANY NAME GOES HERE'
+              companyName: response.data.groupName
             }
           }
         );
       } else {
         console.log('error', response);
+        navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_VERIFIED }});
       }
     } catch (err) {
       console.log('err', err);
+      navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_VERIFIED }});
     }
   };
 

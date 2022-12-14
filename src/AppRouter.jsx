@@ -9,6 +9,7 @@ import {
   ACCESSIBILITY_URL,
   COOKIE_URL,
   DASHBOARD_URL,
+  ERROR_URL,
   FORM_CONFIRMATION_URL,
   LANDING_URL,
   PRIVACY_URL,
@@ -35,6 +36,7 @@ import RegisterYourDetails from './pages/Register/RegisterYourDetails';
 import RegisterYourPassword from './pages/Register/RegisterYourPassword';
 import SignIn from './pages/SignIn/SignIn';
 // Other pages (could be protected or not)
+import GenerigUnknownError from './pages/Error/GenericUnknownError';
 import FormConfirmationPage from './pages/Confirmation/FormConfirmationPage';
 // Protected pages
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -62,6 +64,7 @@ const AppRouter = ({ setIsCookieBannerShown }) => {
         <Route path={REGISTER_PASSWORD} element={<RegisterYourPassword />} />
         <Route path={SIGN_IN_URL} element={<SignIn />} />
 
+        <Route path={ERROR_URL} element={<GenerigUnknownError />} />
         <Route path={FORM_CONFIRMATION_URL} element={<FormConfirmationPage />} />
 
         <Route element={<ProtectedRoutes isPermittedToView={isPermittedToView} />}>
