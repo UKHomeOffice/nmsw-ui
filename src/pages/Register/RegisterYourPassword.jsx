@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { REGISTER_ACCOUNT_ENDPOINT } from '../../constants/AppAPIConstants';
 import {
   FIELD_PASSWORD,
   MULTI_PAGE_FORM,
@@ -8,6 +9,7 @@ import {
 } from '../../constants/AppConstants';
 import { REGISTER_CONFIRMATION } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
+import usePatchData from '../../hooks/usePatchData';
 
 const SupportingText = () => {
   return (
@@ -68,34 +70,50 @@ const RegisterYourPassword = () => {
     }
   ];
 
+
+  // CHANGE EMAILADDRESS TO EMAIL TO MATCH API
+  
   const handleSubmit = async (formData) => {
     // combine data from previous page of form
     const dataToSubmit = { ...state?.dataToSubmit, ...formData.formData };
-    console.log(dataToSubmit);
-    sessionStorage.removeItem('formData');
-    navigate(
-      REGISTER_CONFIRMATION,
-      {
-        state: {
-          companyName: 'COMPANY NAME GOES HERE'
-        }
+    try {
+      const response = await usePatchData({
+        url: REGISTER_ACCOUNT_ENDPOINT,
+        dataToSubmit: dataToSubmit
+      });
+      if (response && response.id) { // using response.id as the indicator of success as status isn't passed back on success yet
+        sessionStorage.removeItem('formData');
+        navigate(
+          REGISTER_CONFIRMATION,
+          {
+            state: {
+              companyName: 'COMPANY NAME GOES HERE'
+            }
+          }
+        );
+      } else {
+        console.log('error', response);
       }
-    );
+    } catch (err) {
+      console.log('err', err);
+    }
   };
 
   return (
-    <>
-      <DisplayForm
-        formId='formRegisterYourPassword'
-        fields={formFields}
-        formActions={formActions}
-        formType={MULTI_PAGE_FORM}
-        pageHeading='Create a password'
-        handleSubmit={handleSubmit}
-      >
-        <SupportingText />
-      </DisplayForm>
-    </>
+    <div className="govuk-grid-row">
+      <div className="govuk-grid-column-three-quarters">
+        <DisplayForm
+          formId='formRegisterYourPassword'
+          fields={formFields}
+          formActions={formActions}
+          formType={MULTI_PAGE_FORM}
+          pageHeading='Create a password'
+          handleSubmit={handleSubmit}
+        >
+          <SupportingText />
+        </DisplayForm>
+      </div>
+    </div>
   );
 };
 

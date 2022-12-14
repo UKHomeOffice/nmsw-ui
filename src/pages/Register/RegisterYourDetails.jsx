@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   FIELD_RADIO,
   FIELD_TEXT,
@@ -12,6 +12,7 @@ import DisplayForm from '../../components/DisplayForm';
 
 const RegisterYourDetails = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const formActions = {
     submit: {
@@ -95,7 +96,7 @@ const RegisterYourDetails = () => {
   ];
 
   const handleSubmit = async (formData) => {
-    const dataToSubmit = { ...formData.formData };
+    const dataToSubmit = { ...state?.dataToSubmit, ...formData.formData };
     console.log('submit', formData);
     navigate(REGISTER_PASSWORD, { state: { dataToSubmit: dataToSubmit } });
   };
