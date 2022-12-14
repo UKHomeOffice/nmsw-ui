@@ -36,7 +36,7 @@ const RegisterEmailVerified = () => {
 
   const handleSubmit = async (formData) => {
     const dataToSubmit = { ...formData.formData };
-    navigate(REGISTER_DETAILS_URL, { state: { dataToSubmit: dataToSubmit } });
+    navigate(REGISTER_DETAILS_URL, { state: { dataToSubmit: { emailAddress: dataToSubmit.emailAddress } } });
   };
 
   return (

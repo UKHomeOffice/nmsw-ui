@@ -26,8 +26,7 @@ describe('Email verified registration page tests', () => {
     await user.click(screen.getByTestId('submit-button'));
 
     await waitFor(() => {
-      // TODO: figure out why it appends undefined: undefined
-      expect(mockedUseNavigate).toHaveBeenCalledWith(REGISTER_DETAILS_URL, { 'state': { 'dataToSubmit': { 'emailAddress': 'testemail@email.com', 'undefined': undefined } } });
+      expect(mockedUseNavigate).toHaveBeenCalledWith(REGISTER_DETAILS_URL, { 'state': { 'dataToSubmit': { 'emailAddress': 'testemail@email.com' } } });
     });
   });
 });
