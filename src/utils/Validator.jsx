@@ -2,6 +2,7 @@ import {
   VALIDATE_CONDITIONAL,
   VALIDATE_EMAIL_ADDRESS,
   VALIDATE_FIELD_MATCH,
+  VALIDATE_MAX_LENGTH,
   VALIDATE_MIN_LENGTH,
   VALIDATE_PHONE_NUMBER,
   VALIDATE_REQUIRED,
@@ -11,6 +12,11 @@ const validateField = ({ type, value, condition }) => {
   switch (type) {
     case VALIDATE_REQUIRED:
       if (!value || value.trim() === '') {
+        return 'error';
+      }
+      break;
+    case VALIDATE_MAX_LENGTH:
+      if (value && value.length > condition) {
         return 'error';
       }
       break;

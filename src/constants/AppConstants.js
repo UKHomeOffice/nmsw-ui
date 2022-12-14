@@ -20,6 +20,7 @@ export const CHECKED_FALSE = false;
 export const VALIDATE_CONDITIONAL = 'conditional';
 export const VALIDATE_EMAIL_ADDRESS = 'emailAddress';
 export const VALIDATE_FIELD_MATCH = 'match';
+export const VALIDATE_MAX_LENGTH = 'maxLength';
 export const VALIDATE_MIN_LENGTH = 'minLength';
 export const VALIDATE_PHONE_NUMBER = 'phoneNumber';
 export const VALIDATE_REQUIRED = 'required';
