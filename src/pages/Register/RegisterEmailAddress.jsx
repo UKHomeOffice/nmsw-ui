@@ -7,7 +7,7 @@ import {
   VALIDATE_FIELD_MATCH,
   VALIDATE_REQUIRED
 } from '../../constants/AppConstants';
-import { REGISTER_EMAIL_VERIFIED } from '../../constants/AppUrlConstants';
+import { ERROR_URL, REGISTER_EMAIL, REGISTER_EMAIL_VERIFIED } from '../../constants/AppUrlConstants';
 import usePostData from '../../hooks/usePostData';
 import DisplayForm from '../../components/DisplayForm';
 
@@ -80,9 +80,11 @@ const RegisterEmailAddress = () => {
         navigate(REGISTER_EMAIL_VERIFIED);
       } else {
         console.log('error', response);
+        navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL }});
       }
     } catch (err) {
       console.log('err', err);
+      navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL }});
     }
   };
 
