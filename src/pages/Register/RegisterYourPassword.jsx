@@ -83,7 +83,7 @@ const RegisterYourPassword = () => {
           phoneNumber: dataToSubmit.phoneNumber,
           password: dataToSubmit.requirePassword,
           groupName: dataToSubmit.companyName,
-          groupTypeName: dataToSubmit.shippingAgent === 'yes' ? 'Shipping Agency' : 'Other'
+          groupTypeName: dataToSubmit.shippingAgent === 'yes' ? 'Shipping Agency' : 'Operator' // these are the only two valid public group types
         }
       });
       if (response && response.id) { // using response.id as the indicator of success as status isn't passed back on success yet
