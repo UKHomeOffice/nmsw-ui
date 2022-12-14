@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { REGISTER_ACCOUNT_ENDPOINT } from '../../constants/AppAPIConstants';
+import { REGISTER_ACCOUNT_URL_ENDPOINT } from '../../constants/AppAPIConstants';
 import {
   FIELD_PASSWORD,
   MULTI_PAGE_FORM,
@@ -7,7 +7,7 @@ import {
   VALIDATE_MIN_LENGTH,
   VALIDATE_REQUIRED
 } from '../../constants/AppConstants';
-import { ERROR_URL, REGISTER_CONFIRMATION, REGISTER_EMAIL_VERIFIED } from '../../constants/AppUrlConstants';
+import { ERROR_URL, REGISTER_CONFIRMATION_URL, REGISTER_EMAIL_URL_VERIFIED } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
 import usePatchData from '../../hooks/usePatchData';
 
@@ -75,7 +75,7 @@ const RegisterYourPassword = () => {
     const dataToSubmit = { ...state?.dataToSubmit, ...formData.formData };
     try {
       const response = await usePatchData({
-        url: REGISTER_ACCOUNT_ENDPOINT,
+        url: REGISTER_ACCOUNT_URL_ENDPOINT,
         dataToSubmit: {
           email: dataToSubmit.emailAddress,
           fullName: dataToSubmit.fullName,
@@ -89,7 +89,7 @@ const RegisterYourPassword = () => {
       if (response && response.data.id) { // using response.id as the indicator of success as status isn't passed back on success yet  
         sessionStorage.removeItem('formData');
         navigate(
-          REGISTER_CONFIRMATION,
+          REGISTER_CONFIRMATION_URL,
           {
             state: {
               companyName: response.data.groupName
@@ -97,10 +97,10 @@ const RegisterYourPassword = () => {
           }
         );
       } else {
-        navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_VERIFIED }});
+        navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_URL_VERIFIED }});
       }
     } catch (err) {
-      navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_VERIFIED }});
+      navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_URL_VERIFIED }});
     }
   };
 

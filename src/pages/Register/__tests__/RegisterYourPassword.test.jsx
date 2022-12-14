@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { ERROR_URL, REGISTER_CONFIRMATION, REGISTER_EMAIL_VERIFIED } from '../../../constants/AppUrlConstants';
+import { ERROR_URL, REGISTER_CONFIRMATION_URL, REGISTER_EMAIL_URL_VERIFIED } from '../../../constants/AppUrlConstants';
 import RegisterYourPassword from '../RegisterYourPassword';
 
 const mockUseLocationState = { state: {} };
@@ -189,7 +189,7 @@ describe('Register password tests', () => {
     await user.click(screen.getByTestId('submit-button'));
     // mocked usePatchData returns a successful response (currently we take success as id received as we don't get the success code yet)
     await waitFor(() => {
-      expect(mockedUseNavigate).toHaveBeenCalledWith(REGISTER_CONFIRMATION, { 'state': { 'companyName': 'My company' } });
+      expect(mockedUseNavigate).toHaveBeenCalledWith(REGISTER_CONFIRMATION_URL, { 'state': { 'companyName': 'My company' } });
     });
   });
 
@@ -206,7 +206,7 @@ describe('Register password tests', () => {
     await user.click(screen.getByTestId('submit-button'));
     // mocked usePatchData returns a successful response (currently we take success as id received as we don't get the success code yet)
     await waitFor(() => {
-      expect(mockedUseNavigate).toHaveBeenCalledWith(ERROR_URL, {'state': {'redirectURL': REGISTER_EMAIL_VERIFIED}});
+      expect(mockedUseNavigate).toHaveBeenCalledWith(ERROR_URL, {'state': {'redirectURL': REGISTER_EMAIL_URL_VERIFIED}});
     });
   });
 
@@ -224,7 +224,7 @@ describe('Register password tests', () => {
     await user.type(screen.getByLabelText('Confirm your password'), 'mypasswordis');
     await user.click(screen.getByTestId('submit-button'));
     await waitFor(() => {
-      expect(mockedUseNavigate).toHaveBeenCalledWith(ERROR_URL, {'state': {'redirectURL': REGISTER_EMAIL_VERIFIED}});
+      expect(mockedUseNavigate).toHaveBeenCalledWith(ERROR_URL, {'state': {'redirectURL': REGISTER_EMAIL_URL_VERIFIED}});
     });
   });
 

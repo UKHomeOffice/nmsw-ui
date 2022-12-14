@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { REGISTER_ACCOUNT_ENDPOINT } from '../../constants/AppAPIConstants';
+import { REGISTER_ACCOUNT_URL_ENDPOINT } from '../../constants/AppAPIConstants';
 import {
   FIELD_EMAIL,
   SINGLE_PAGE_FORM,
@@ -7,7 +7,7 @@ import {
   VALIDATE_FIELD_MATCH,
   VALIDATE_REQUIRED
 } from '../../constants/AppConstants';
-import { ERROR_URL, REGISTER_EMAIL, REGISTER_EMAIL_VERIFIED } from '../../constants/AppUrlConstants';
+import { ERROR_URL, REGISTER_EMAIL_URL, REGISTER_EMAIL_URL_VERIFIED } from '../../constants/AppUrlConstants';
 import usePostData from '../../hooks/usePostData';
 import DisplayForm from '../../components/DisplayForm';
 
@@ -71,18 +71,18 @@ const RegisterEmailAddress = () => {
   const handleSubmit = async (formData) => {
     try {
       const response = await usePostData({
-        url: REGISTER_ACCOUNT_ENDPOINT,
+        url: REGISTER_ACCOUNT_URL_ENDPOINT,
         dataToSubmit: {
           email: formData.formData.emailAddress,
         }
       });
       if (response && response.id) { // using response.id as the indicator of success as status isn't passed back on success yet
-        navigate(REGISTER_EMAIL_VERIFIED);
+        navigate(REGISTER_EMAIL_URL_VERIFIED);
       } else {
-        navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL }});
+        navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_URL }});
       }
     } catch (err) {
-      navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL }});
+      navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_URL }});
     }
   };
 

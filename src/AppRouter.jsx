@@ -13,12 +13,12 @@ import {
   FORM_CONFIRMATION_URL,
   LANDING_URL,
   PRIVACY_URL,
-  REGISTER_ACCOUNT,
-  REGISTER_CONFIRMATION,
-  REGISTER_EMAIL,
-  REGISTER_EMAIL_VERIFIED,
-  REGISTER_DETAILS,
-  REGISTER_PASSWORD,
+  REGISTER_ACCOUNT_URL,
+  REGISTER_CONFIRMATION_URL,
+  REGISTER_EMAIL_URL,
+  REGISTER_EMAIL_URL_VERIFIED,
+  REGISTER_DETAILS_URL,
+  REGISTER_PASSWORD_URL,
   SIGN_IN_URL,
   SECOND_PAGE_URL,
 } from './constants/AppUrlConstants';
@@ -56,12 +56,12 @@ const AppRouter = ({ setIsCookieBannerShown }) => {
         <Route path={LANDING_URL} element={<Landing />} />
         <Route path={PRIVACY_URL} element={<PrivacyNotice />} />
 
-        <Route path={REGISTER_CONFIRMATION} element={<RegisterConfirmation />} />
-        <Route path={REGISTER_ACCOUNT} element={<RegisterEmailAddress />} />
-        <Route path={REGISTER_EMAIL} element={<RegisterEmailAddress />} />
-        <Route path={REGISTER_EMAIL_VERIFIED} element={<RegisterEmailVerified />} />
-        <Route path={REGISTER_DETAILS} element={<RegisterYourDetails />} />
-        <Route path={REGISTER_PASSWORD} element={<RegisterYourPassword />} />
+        <Route path={REGISTER_CONFIRMATION_URL} element={<RegisterConfirmation />} />
+        <Route path={REGISTER_ACCOUNT_URL} element={<RegisterEmailAddress />} />
+        <Route path={REGISTER_EMAIL_URL} element={<RegisterEmailAddress />} />
+        <Route path={REGISTER_EMAIL_URL_VERIFIED} element={<RegisterEmailVerified />} />
+        <Route path={REGISTER_DETAILS_URL} element={<RegisterYourDetails />} />
+        <Route path={REGISTER_PASSWORD_URL} element={<RegisterYourPassword />} />
         <Route path={SIGN_IN_URL} element={<SignIn />} />
 
         <Route path={ERROR_URL} element={<GenerigUnknownError />} />

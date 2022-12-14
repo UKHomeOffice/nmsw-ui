@@ -5,7 +5,7 @@ import {
   VALIDATE_EMAIL_ADDRESS,
   VALIDATE_REQUIRED
 } from '../../constants/AppConstants';
-import { REGISTER_DETAILS } from '../../constants/AppUrlConstants';
+import { REGISTER_DETAILS_URL } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
 
 const RegisterEmailVerified = () => {
@@ -36,7 +36,7 @@ const RegisterEmailVerified = () => {
 
   const handleSubmit = async (formData) => {
     const dataToSubmit = { ...formData.formData };
-    navigate(REGISTER_DETAILS, { state: { dataToSubmit: dataToSubmit } });
+    navigate(REGISTER_DETAILS_URL, { state: { dataToSubmit: dataToSubmit } });
   };
 
   return (
