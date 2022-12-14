@@ -9,7 +9,7 @@ const GenericUnknownError = () => {
         <div className="govuk-grid-column-two-thirds">
           <h1 className="govuk-heading-xl">Error</h1>
           <p className="govuk-body">Something has gone wrong</p>
-          <Link to={state?.redirectURL || LANDING_URL}>Go here to continue</Link>
+          <Link to={state?.redirectURL || LANDING_URL}>Click here to continue</Link>
         </div>
       </div>
     </>
