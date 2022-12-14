@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { REGISTER_ACCOUNT_URL_ENDPOINT } from '../../constants/AppAPIConstants';
+import { REGISTER_ACCOUNT_ENDPOINT } from '../../constants/AppAPIConstants';
 import {
   FIELD_PASSWORD,
   MULTI_PAGE_FORM,
@@ -75,7 +75,7 @@ const RegisterYourPassword = () => {
     const dataToSubmit = { ...state?.dataToSubmit, ...formData.formData };
     try {
       const response = await usePatchData({
-        url: REGISTER_ACCOUNT_URL_ENDPOINT,
+        url: REGISTER_ACCOUNT_ENDPOINT,
         dataToSubmit: {
           email: dataToSubmit.emailAddress,
           fullName: dataToSubmit.fullName,
