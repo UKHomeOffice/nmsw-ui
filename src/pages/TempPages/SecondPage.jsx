@@ -7,6 +7,7 @@ import {
   CHECKED_FALSE,
   VALIDATE_CONDITIONAL,
   VALIDATE_REQUIRED,
+  SINGLE_PAGE_FORM,
 } from '../../constants/AppConstants';
 import { DASHBOARD_PAGE_NAME, DASHBOARD_URL, FORM_CONFIRMATION_URL } from '../../constants/AppUrlConstants';
 import DisplayForm from '../../components/DisplayForm';
@@ -209,6 +210,7 @@ const SecondPage = () => {
           formId='formSecondPage'
           fields={formFields}
           formActions={formActions}
+          formType={SINGLE_PAGE_FORM}
           handleSubmit={handleSubmit}
         />
       </div >
