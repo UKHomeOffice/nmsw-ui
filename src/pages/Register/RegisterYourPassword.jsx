@@ -70,16 +70,21 @@ const RegisterYourPassword = () => {
     }
   ];
 
-
-  // CHANGE EMAILADDRESS TO EMAIL TO MATCH API
-  
   const handleSubmit = async (formData) => {
     // combine data from previous page of form
     const dataToSubmit = { ...state?.dataToSubmit, ...formData.formData };
     try {
       const response = await usePatchData({
         url: REGISTER_ACCOUNT_ENDPOINT,
-        dataToSubmit: dataToSubmit
+        dataToSubmit: {
+          email: dataToSubmit.emailAddress,
+          fullName: dataToSubmit.fullName,
+          country: dataToSubmit.country, // max 3 characters (country code)
+          phoneNumber: dataToSubmit.phoneNumber,
+          password: dataToSubmit.requirePassword,
+          groupName: dataToSubmit.companyName,
+          groupTypeName: dataToSubmit.shippingAgent === 'yes' ? 'Shipping Agency' : 'Other'
+        }
       });
       if (response && response.id) { // using response.id as the indicator of success as status isn't passed back on success yet
         sessionStorage.removeItem('formData');
