@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { REGISTER_DETAILS } from '../../../constants/AppUrlConstants';
+import { ERROR_URL, REGISTER_EMAIL, REGISTER_EMAIL_VERIFIED } from '../../../constants/AppUrlConstants';
 import RegisterEmailAddress from '../RegisterEmailAddress';
 
 const mockedUseNavigate = jest.fn();
@@ -44,7 +44,7 @@ describe('Register email address POST tests', () => {
 
     // mocked usePostData returns a successful response (currently we take success as id received as we don't get the success code yet)
     await waitFor(() => {
-      expect(mockedUseNavigate).toHaveBeenCalledWith(REGISTER_DETAILS);
+      expect(mockedUseNavigate).toHaveBeenCalledWith(REGISTER_EMAIL_VERIFIED);
     });
   });
 
@@ -52,17 +52,30 @@ describe('Register email address POST tests', () => {
     const user = userEvent.setup();
     mockedUserPostData = {
       message: 'error response',
-      status: '404'
+      status: '400'
     };
 
     render(<MemoryRouter><RegisterEmailAddress /></MemoryRouter>);
     await user.type(screen.getAllByRole('textbox', { name: /email/i })[0], 'testemail@email.com');
     await user.type(screen.getAllByRole('textbox', { name: /email/i })[1], 'testemail@email.com');
     await user.click(screen.getByTestId('submit-button'));
-
-    // mocked usePostData returns a successful response (currently we take success as id received as we don't get the success code yet)
     await waitFor(() => {
-      expect(mockedUseNavigate).not.toHaveBeenCalled();
+      expect(mockedUseNavigate).toHaveBeenCalledWith(ERROR_URL, {'state': {'redirectURL': REGISTER_EMAIL}}); // on error we redirect to error page
+    });
+  });
+
+  it('should NOT navigate to register details page if id missing from POST response', async () => {
+    const user = userEvent.setup();
+    mockedUserPostData = {
+      email: 'jentest202212121535@email.com',
+    };
+
+    render(<MemoryRouter><RegisterEmailAddress /></MemoryRouter>);
+    await user.type(screen.getAllByRole('textbox', { name: /email/i })[0], 'testemail@email.com');
+    await user.type(screen.getAllByRole('textbox', { name: /email/i })[1], 'testemail@email.com');
+    await user.click(screen.getByTestId('submit-button'));
+    await waitFor(() => {
+      expect(mockedUseNavigate).toHaveBeenCalledWith(ERROR_URL, {'state': {'redirectURL': REGISTER_EMAIL}}); // on error we redirect to error page
     });
   });
 });

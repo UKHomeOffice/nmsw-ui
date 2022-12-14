@@ -79,11 +79,9 @@ const RegisterEmailAddress = () => {
       if (response && response.id) { // using response.id as the indicator of success as status isn't passed back on success yet
         navigate(REGISTER_EMAIL_VERIFIED);
       } else {
-        console.log('error', response);
         navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL }});
       }
     } catch (err) {
-      console.log('err', err);
       navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL }});
     }
   };

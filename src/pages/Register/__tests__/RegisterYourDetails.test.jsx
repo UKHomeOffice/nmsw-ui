@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import RegisterYourDetails from '../RegisterYourDetails';
 
-describe('Register email address tests', () => {
+describe('Register your details tests', () => {
   const handleSubmit = jest.fn();
   let scrollIntoViewMock = jest.fn();
   window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
@@ -40,8 +40,8 @@ describe('Register email address tests', () => {
 
   it('should render a country question', async () => {
     render(<MemoryRouter><RegisterYourDetails /></MemoryRouter>);
-    expect(screen.getByLabelText('Country')).toBeInTheDocument();
-    expect(screen.getByRole('textbox', {name: 'Country'}).outerHTML).toEqual('<input class="govuk-input" id="country-input" name="country" type="text" value="">');
+    expect(screen.getByLabelText('Country (3 digit country code)')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', {name: 'Country (3 digit country code)'}).outerHTML).toEqual('<input class="govuk-input" id="country-input" name="country" type="text" value="">');
   });
 
   it('should render a shipping agent question', async () => {
@@ -99,7 +99,7 @@ describe('Register email address tests', () => {
     await user.type(screen.getByLabelText('Your company name'), 'Joe Bloggs Company');
     await user.type(screen.getByLabelText('Country code field'), '123');
     await user.type(screen.getByLabelText('Phone number field'), '12345');
-    await user.type(screen.getByLabelText('Country'), 'Australia');
+    await user.type(screen.getByLabelText('Country (3 digit country code)'), 'AUS');
     await user.click(screen.getByRole('radio', { name: 'Yes' }));
     await user.click(screen.getByTestId('submit-button'));
     expect(screen.queryByText('There is a problem')).not.toBeInTheDocument();
@@ -112,14 +112,14 @@ describe('Register email address tests', () => {
 
   it('should NOT clear form session data on submit', async () => {
     const user = userEvent.setup();
-    const expectedStoredData = '{"fullName":"Joe Bloggs","companyName":"Joe Bloggs Company","phoneNumber":"(123)12345","country":"Australia","shippingAgent":"yes"}';
+    const expectedStoredData = '{"fullName":"Joe Bloggs","companyName":"Joe Bloggs Company","phoneNumber":"(123)12345","country":"AUS","shippingAgent":"yes"}';
     render(<MemoryRouter><RegisterYourDetails /></MemoryRouter>);
 
     await user.type(screen.getByLabelText('Full name'), 'Joe Bloggs');
     await user.type(screen.getByLabelText('Your company name'), 'Joe Bloggs Company');
     await user.type(screen.getByLabelText('Country code field'), '123');
     await user.type(screen.getByLabelText('Phone number field'), '12345');
-    await user.type(screen.getByLabelText('Country'), 'Australia');
+    await user.type(screen.getByLabelText('Country (3 digit country code)'), 'AUS');
     await user.click(screen.getByRole('radio', { name: 'Yes' }));
 
     await user.click(screen.getByTestId('submit-button'));

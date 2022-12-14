@@ -97,11 +97,9 @@ const RegisterYourPassword = () => {
           }
         );
       } else {
-        console.log('error', response);
         navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_VERIFIED }});
       }
     } catch (err) {
-      console.log('err', err);
       navigate(ERROR_URL, { state: { redirectURL: REGISTER_EMAIL_VERIFIED }});
     }
   };
