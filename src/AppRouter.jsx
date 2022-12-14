@@ -15,6 +15,7 @@ import {
   REGISTER_ACCOUNT,
   REGISTER_CONFIRMATION,
   REGISTER_EMAIL,
+  REGISTER_EMAIL_VERIFIED,
   REGISTER_DETAILS,
   REGISTER_PASSWORD,
   SIGN_IN_URL,
@@ -29,6 +30,7 @@ import PrivacyNotice from './pages/Regulatory/PrivacyNotice';
 // Register/Sign in pages
 import RegisterConfirmation from './pages/Register/RegisterConfirmation';
 import RegisterEmailAddress from './pages/Register/RegisterEmailAddress';
+import RegisterEmailVerified from './pages/Register/RegisterEmailVerified';
 import RegisterYourDetails from './pages/Register/RegisterYourDetails';
 import RegisterYourPassword from './pages/Register/RegisterYourPassword';
 import SignIn from './pages/SignIn/SignIn';
@@ -55,6 +57,7 @@ const AppRouter = ({ setIsCookieBannerShown }) => {
         <Route path={REGISTER_CONFIRMATION} element={<RegisterConfirmation />} />
         <Route path={REGISTER_ACCOUNT} element={<RegisterEmailAddress />} />
         <Route path={REGISTER_EMAIL} element={<RegisterEmailAddress />} />
+        <Route path={REGISTER_EMAIL_VERIFIED} element={<RegisterEmailVerified />} />
         <Route path={REGISTER_DETAILS} element={<RegisterYourDetails />} />
         <Route path={REGISTER_PASSWORD} element={<RegisterYourPassword />} />
         <Route path={SIGN_IN_URL} element={<SignIn />} />

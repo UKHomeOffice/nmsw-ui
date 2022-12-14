@@ -53,4 +53,5 @@ const RegisterEmailVerified = () => {
   );
 };
 
+
 export default RegisterEmailVerified;
