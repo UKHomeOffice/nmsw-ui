@@ -1,6 +1,6 @@
 import {Given, When, Then} from '@badeball/cypress-cucumber-preprocessor';
 import CookieComp from '../../e2e/components/cookie.comp.js';
-import CookiePage from '../../e2e/pages/cookie.page';
+import CookiePage from '../../e2e/pages/cookiePage';
 
 Given('I can see the cookie banner', () => {
   CookieComp.open();
@@ -75,7 +75,7 @@ When('I change my cookie preference to {string} and click save', (pref) => {
   } else {
     CookiePage.clickBtnRadioNo();
   }
-  CookiePage.clickBtnSaveCookie();
+  CookiePage.clickSaveCookies();
 });
 
 Then('my {string} for analytics cookies should be saved', (chgPref) => {

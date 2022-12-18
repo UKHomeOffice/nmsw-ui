@@ -13,11 +13,7 @@ class CookiePage {
   }
 
   get btnSaveCookies() {
-    return cy.get('[data-testid="save-button"]');
-  }
-
-  get btnSaveCookie() {
-    return cy.get('button[data-testid="save-button"]');
+    return cy.get('[data-testid="submit-button"]');
   }
 
   get bannerSuccess() {
@@ -29,7 +25,7 @@ class CookiePage {
   }
 
   //Re-usable methods
-  saveCookies() {
+  clickSaveCookies() {
     this.btnSaveCookies.should('be.visible').click();
   }
 
@@ -49,10 +45,6 @@ class CookiePage {
 
   clickBtnRadioNo() {
     this.btnRadioNo.check('no');
-  }
-
-  clickBtnSaveCookie() {
-    this.btnSaveCookie.click();
   }
 
   checkFormManageCookie() {
