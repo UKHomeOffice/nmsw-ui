@@ -4,4 +4,4 @@ description: A Helm chart for the NMSW UI
 type: application
 version: 0.1.0
 # Use appVersion to set the image tag i.e. nmsw-service:{appVersion}
-appVersion: 0.6.1
+appVersion: 0.7.0
